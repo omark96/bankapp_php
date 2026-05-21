@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use ReflectionClass;
+use ReflectionNamedType;
+
 class Router
 {
     protected $routes = [];
@@ -49,17 +52,19 @@ class Router
 
     public function route(string $uri, string $method)
     {
-        foreach($this->routes as $route){
+        foreach ($this->routes as $route) {
             $regex = $route['regex'];
             $trimmedUri = trim($uri, '/');
             if ($route['method'] === strtoupper($method) &&
                 preg_match($regex, $trimmedUri, $matches)
             ) {
                 array_shift($matches);
-                $controller = new $route['controller']();
+
+                $controller = App::resolve($route['controller']);
                 $action = $route['action'];
-                $controller->$action(...$matches);
+                return $controller->$action(...$matches);
             }
         }
+        abort(Response::NOT_FOUND);
     }
 }

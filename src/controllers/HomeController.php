@@ -9,10 +9,17 @@ class HomeController
         view('index');
     }
 
-    public function error($code)
+    public function error(int $code)
     {
         view('error', [
             'code' => $code
+        ]);
+    }
+
+    public function test(int $id)
+    {
+        view('example', [
+            'text' => $id
         ]);
     }
 }
