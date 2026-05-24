@@ -2,7 +2,6 @@
 
 namespace Database\Interfaces;
 
-use Core\Database;
 use Models\User;
 
 interface UserRepository

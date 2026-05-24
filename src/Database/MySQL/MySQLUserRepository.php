@@ -17,7 +17,6 @@ class MySQLUserRepository implements UserRepository
         $user = $this->db->query('select * from users where card_number = :cardNumber', [
             'cardNumber' => $cardNumber
         ])->find();
-
-
+        return User::fromDb($user);
     }
 }

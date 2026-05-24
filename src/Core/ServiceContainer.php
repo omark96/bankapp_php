@@ -19,7 +19,7 @@ class ServiceContainer
         ];
     }
 
-    public function singleton(string $key, Closure|string $resolver)
+    public function singleton(string $key, Closure|string $resolver = null)
     {
         $this->bind($key, $resolver, true);
     }
@@ -61,40 +61,6 @@ class ServiceContainer
         return $instance;
     }
 
-
-    //$reflector = new ReflectionClass($route['controller']);
-//$constructor = $reflector->getConstructor();
-//$parameters = $constructor->getParameters();
-//foreach ($parameters as $parameter) {
-//    $type = $parameter->getType();
-//
-//    // Check if it's a standard, single type declaration
-//    if ($type instanceof ReflectionNamedType) {
-//        echo $type->getName() . "<br>"; // e.g., "Core\Database" or "int"
-//    }
-//}
-//die();
-
-
-//    public function resolve(string $key)
-//    {
-//        if (!array_key_exists($key, $this->bindings)) {
-//            throw new \Exception(("No matching binding for {$key}"));
-//        }
-//        $resolver = $this->bindings[$key];
-//
-//        return call_user_func($resolver);
-//    }
-//
-//    public function __get(string $key)
-//    {
-//        if (!array_key_exists($key, $this->bindings)) {
-//            throw new \Exception(("No matching binding for {$key}"));
-//        }
-//        $resolver = $this->bindings[$key];
-//
-//        return call_user_func($resolver);
-//    }
     private function lastBinding()
     {
         return $this->bindings[array_key_last($this->bindings)];

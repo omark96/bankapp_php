@@ -1,4 +1,6 @@
-<?php /** @var string $slot */ ?>
+<?php /** @var string $slot */
+
+use Core\Auth; ?>
 
 <!doctype html>
 <html lang="en">
@@ -14,7 +16,16 @@
 <header class="header">
     <h2>Olles Bank</h2>
     <nav class="navbar">
-        <a href="/session" class="navbar__link">Logga in</a>
+        <?php if (Auth::check()): ?>
+            <form action="/session" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="navbar__link">
+                    Logga ut
+                </button>
+            </form>
+        <?php else : ?>
+            <a href="/session/create" class="navbar__link">Logga in</a>
+        <?php endif ?>
     </nav>
 </header>
 <aside class="sidebar">

@@ -1,6 +1,7 @@
 <?php
 
 use Core\Response;
+use Core\Exceptions\HttpException;
 
 function dd($value)
 {
@@ -27,14 +28,16 @@ function view(string $path, array $attributes = [], string $layout = 'default')
     require base_path("views/layouts/$layout.php");
 }
 
+function component(string $path, array $attributes = [])
+{
+    extract($attributes);
+    require base_path("views/components/$path.view.php");
+}
+
 function abort($code = Response::NOT_FOUND)
 {
     http_response_code($code);
-
-    view('error', [
-        'code' => $code
-    ]);
-    die();
+    throw new HttpException('HTTP Error', $code);
 }
 
 function redirect($path)
@@ -48,9 +51,4 @@ function authorize($condition, $status = Response::FORBIDDEN)
     if (!$condition) {
         abort($status);
     }
-}
-
-function isUser()
-{
-
 }

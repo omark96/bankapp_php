@@ -1,13 +1,13 @@
-<?php
-?>
-
-<form action="/session" method="POST">
+<form action="/session" method="POST" class="loginForm">
     <div>
         <label for="cardNumber">Kortnummer</label>
         <input id="cardNumber"
                type="text"
                name="cardNumber"
                required>
+        <?php if (isset($errors['cardNumber'])): ?>
+            <p><?= $errors['cardNumber'] ?></p>
+        <?php endif ?>
     </div>
     <div>
         <label for="pinCode">PIN-kod</label>
@@ -15,6 +15,9 @@
                type="password"
                name="pinCode"
                required>
+        <?php if (isset($errors['pinCode'])): ?>
+            <p><?= $errors['pinCode'] ?></p>
+        <?php endif ?>
     </div>
     <button type="submit">Log in</button>
 </form>

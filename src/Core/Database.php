@@ -45,8 +45,18 @@ class Database
         return $this->statement->fetchAll();
     }
 
-    public function execute($query)
+    public function execute($query): false|int
     {
         return $this->connection->exec($query);
+    }
+
+    public function beginTransaction(): bool
+    {
+        return $this->connection->beginTransaction();
+    }
+
+    public function commit(): bool
+    {
+        return $this->connection->commit();
     }
 }

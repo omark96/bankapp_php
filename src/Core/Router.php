@@ -12,10 +12,8 @@ class Router
     public function add(string $method, string $uri, string $controller, string $action)
     {
         $trimmedUri = trim($uri, '/');
-        $regex = preg_replace("#\{\w+}#", "([^\/]+)", $trimmedUri);
-        $regex = "#^" . $regex . "$#i";
         $this->routes[] = [
-            'regex' => $regex,
+            'uri' => $trimmedUri,
             'controller' => $controller,
             'method' => $method,
             'action' => $action,
@@ -53,7 +51,8 @@ class Router
     public function route(string $uri, string $method)
     {
         foreach ($this->routes as $route) {
-            $regex = $route['regex'];
+            $regex = preg_replace("#\{\w+}#", "([^\/]+)", $route['uri']);
+            $regex = "#^" . $regex . "$#i";
             $trimmedUri = trim($uri, '/');
             if ($route['method'] === strtoupper($method) &&
                 preg_match($regex, $trimmedUri, $matches)
@@ -66,5 +65,10 @@ class Router
             }
         }
         abort(Response::NOT_FOUND);
+    }
+
+    public function previousUrl()
+    {
+        return $_SERVER['HTTP_REFERER'];
     }
 }

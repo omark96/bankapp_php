@@ -27,11 +27,11 @@ CREATE TABLE Accounts
 CREATE TABLE Transactions
 (
     id              INT PRIMARY KEY AUTO_INCREMENT,
-    from_account_id INT            NOT NULL,
-    to_account_id   INT            NOT NULL,
-    type            VARCHAR(50)    NOT NULL,
-    amount          DECIMAL(30, 2) NOT NULL,
-    created_at      TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    from_account_id INT         NULL,
+    to_account_id   INT         NULL,
+    type            VARCHAR(50) NOT NULL,
+    amount          REAL        NOT NULL,
+    created_at      TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (from_account_id) REFERENCES Accounts (id),
     FOREIGN KEY (to_account_id) REFERENCES Accounts (id)

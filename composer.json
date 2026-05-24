@@ -1,15 +1,14 @@
 {
-    "name": "ollem/bankapp",
-    "autoload": {
-        "psr-4": {
-            "": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "omark96",
-            "email": "43138339+omark96@users.noreply.github.com"
-        }
-    ],
-    "require": {}
+  "name": "ollem/bankapp",
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "omark96",
+      "email": "43138339+omark96@users.noreply.github.com"
+    }
+  ]
 }
