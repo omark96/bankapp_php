@@ -12,6 +12,9 @@ use Database\MySQL\MySQLUserRepository;
 use Http\Controllers\AccountController;
 use Http\Controllers\HomeController;
 use Http\Controllers\SessionController;
+use Http\Controllers\Transactions\DepositController;
+use Http\Controllers\Transactions\TransferController;
+use Http\Controllers\Transactions\WithdrawController;
 
 session_start();
 
@@ -26,9 +29,13 @@ $container->singleton(UserRepository::class, MySQLUserRepository::class);
 $container->singleton(AccountRepository::class, MySQLAccountRepository::class);
 $container->singleton(TransactionRepository::class, MySQLTransactionRepository::class);
 
+
 $container->bind(SessionController::class);
 $container->bind(HomeController::class);
 $container->bind(AccountController::class);
+$container->bind(DepositController::class);
+$container->bind(WithdrawController::class);
+$container->bind(TransferController::class);
 
 App::setServices($container);
 

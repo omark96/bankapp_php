@@ -11,11 +11,19 @@ use Models\Account;
 
 ?>
 
-<div class="account-actions">
+<div class="account-actions" hx-target="this" hx-swap="outerHTML">
     <h3 class="account-actions__">Vad vill du göra?</h3>
-    <a href="">Ta ut</a>
-    <a href="">Sätta in</a>
-    <a href="">Överföra</a>
+    <button hx-get="/accounts/<?= e($account->id) ?>/withdraw">
+        Ta ut
+    </button>
+
+    <button hx-get="/accounts/<?= e($account->id) ?>/deposit">
+        Sätta in
+    </button>
+
+    <button hx-get="/accounts/<?= e($account->id) ?>/transfer">
+        Överföra
+    </button>
 </div>
 
 <?php component('paginatedTable', [

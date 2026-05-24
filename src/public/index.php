@@ -18,7 +18,6 @@ $registerRoutes($router);
 
 $uri = currentPath();
 $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-
 try {
     $router->route($uri, $method);
 } catch (TypeError $typeError) {

@@ -4,6 +4,7 @@ namespace Database\MySQL;
 
 use Core\Database;
 use Core\Types\PaginatedArray;
+use Database\DTOs\CreateTransactionDTO;
 use Database\Interfaces\TransactionRepository;
 use Models\Transaction;
 
@@ -75,8 +76,23 @@ class MySQLTransactionRepository implements TransactionRepository
         return new PaginatedArray($transactions, $limit, $rowCount['sum'], $page);
     }
 
-    public function insert(Transaction $transaction): bool
+    public function insert(CreateTransactionDTO $transaction): bool
     {
-        // TODO: Implement insert() method.
+        try {
+            $this->db->query('
+            insert into 
+                transactions(from_account_id, to_account_id, type, amount) 
+            VALUES 
+                (:fromAccountId, :toAccountId, :type, :amount)
+        ', [
+                'fromAccountId' => $transaction->fromAccountId,
+                'toAccountId' => $transaction->toAccountId,
+                'type' => $transaction->type,
+                'amount' => $transaction->amount
+            ]);
+            return true;
+        } catch (\Exception) {
+            return false;
+        }
     }
 }

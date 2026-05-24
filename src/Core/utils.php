@@ -16,16 +16,18 @@ function base_path(string $path)
     return BASE_PATH . $path;
 }
 
-function view(string $path, array $attributes = [], string $layout = 'default')
+function view(string $path, array $attributes = [], ?string $layout = 'default')
 {
     extract($attributes);
+    if ($layout) {
+        ob_start();
+        require base_path("views/$path.view.php");
 
-    ob_start();
-    require base_path("views/$path.view.php");
-
-    $slot = ob_get_clean();
-
-    require base_path("views/layouts/$layout.php");
+        $slot = ob_get_clean();
+        require base_path("views/layouts/$layout.php");
+    } else {
+        require base_path("views/$path.view.php");
+    }
 }
 
 function component(string $path, array $attributes = [])

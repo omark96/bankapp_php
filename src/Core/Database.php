@@ -73,4 +73,9 @@ class Database
     {
         return $this->connection->commit();
     }
+
+    public function lastInsertId()
+    {
+        return $this->connection->lastInsertId();
+    }
 }
