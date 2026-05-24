@@ -52,3 +52,13 @@ function authorize($condition, $status = Response::FORBIDDEN)
         abort($status);
     }
 }
+
+function currentPath(): string
+{
+    return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+}
+
+function e($string)
+{
+    return htmlspecialchars($string);
+}

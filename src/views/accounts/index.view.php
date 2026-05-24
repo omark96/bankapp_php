@@ -1,9 +1,9 @@
 <?php /** @var array $accounts */ ?>
-
-<?php foreach ($accounts as $account) : ?>
-    <?php component('accountCard', [
-        'account' => $account
-    ]);
-    ?>
-<?php endforeach; ?>
-
+<div class="accounts-list">
+    <?php foreach ($accounts as $account) : ?>
+        <?php component('accountCard', [
+            'account' => $account
+        ]);
+        ?>
+    <?php endforeach; ?>
+</div>

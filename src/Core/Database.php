@@ -21,7 +21,21 @@ class Database
     {
         $this->statement = $this->connection->prepare($query);
 
-        $this->statement->execute($params);
+        foreach ($params as $key => $value) {
+            $type = match (true) {
+                is_int($value) => PDO::PARAM_INT,
+                is_bool($value) => PDO::PARAM_BOOL,
+                is_null($value) => PDO::PARAM_NULL,
+                default => PDO::PARAM_STR
+            };
+            $this->statement->bindValue(
+                is_int($key) ? $key + 1 : $key,
+                $value,
+                $type
+            );
+        }
+
+        $this->statement->execute();
 
         return $this;
     }

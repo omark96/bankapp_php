@@ -12,12 +12,11 @@ require BASE_PATH . '../vendor/autoload.php';
 require BASE_PATH . 'Core/utils.php';
 
 require base_path('bootstrap.php');
-
 $router = new Router();
 $registerRoutes = require base_path('routes.php');
 $registerRoutes($router);
 
-$uri = $_SERVER['REQUEST_URI'];
+$uri = currentPath();
 $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
 try {

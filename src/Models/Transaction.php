@@ -8,8 +8,8 @@ class Transaction
 {
     public function __construct(
         public int               $id,
-        public int               $fromAccountId,
-        public int               $toAccountId,
+        public ?int              $fromAccountId,
+        public ?int              $toAccountId,
         public string            $type,
         public string            $amount,
         public DateTimeImmutable $createdAt
@@ -31,5 +31,15 @@ class Transaction
             );
         }
         return null;
+    }
+
+    public function getSwedishType(): string
+    {
+        return match ($this->type) {
+            "deposit" => "Insättning",
+            "withdraw" => "Uttag",
+            "transfer" => "Överföring",
+            default => $this->type
+        };
     }
 }
