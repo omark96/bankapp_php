@@ -14,5 +14,10 @@
 </div>
 
 <div id="tab-content" class="tab-content">
-    Konton
+    <div id="accountTable"
+         hx-get="/admin/accounts/table"
+         hx-trigger="load"
+         hx-target="this"
+         hx-swap="innerHTML">
+    </div>
 </div>

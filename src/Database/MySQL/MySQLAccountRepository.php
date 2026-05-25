@@ -15,7 +15,50 @@ class MySQLAccountRepository implements AccountRepository
 
     public function getAllPaginated(int $page, int $limit): PaginatedArray
     {
-        // TODO: Implement getAllPaginated() method.
+        $result = $this->db
+            ->query('
+                select 
+                    A.*,
+                    coalesce(incoming.sum, 0) as incoming,
+                    coalesce(outgoing.sum, 0) as outgoing
+                from accounts as A
+                left join (
+                    select
+                        to_account_id,
+                        sum(amount) as sum
+                    from transactions
+                    group by to_account_id
+                ) as incoming on A.id = incoming.to_account_id
+                left join (
+                    select
+                        from_account_id,
+                        sum(amount) as sum
+                    from transactions
+                    group by from_account_id
+                ) as outgoing on A.id = outgoing.from_account_id
+                order by A.created_at desc
+                limit :limit offset :offset;
+                ',
+                [
+                    'limit' => $limit,
+                    'offset' => ($page - 1) * $limit
+                ])
+            ->findAll();
+
+        $rowCount = $this->db
+            ->query('
+                select 
+                    count(*) as sum
+                from accounts
+                ')
+            ->find();
+
+        $accounts = [];
+        foreach ($result as $account) {
+            $accounts[] = Account::fromDb($account);
+        }
+
+        return new PaginatedArray($accounts, $limit, $rowCount['sum'], $page);
     }
 
     public function getById(int $id): ?Account

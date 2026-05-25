@@ -25,37 +25,46 @@ class AccountController
 
         $columns = [
             [
-                'key' => 'type',
-                'label' => 'Transaktionstyp',
+                'key' => 'id',
+                'label' => 'Id',
+                'formatter' => function (Account $account) {
+                    return $account->id;
+                }
+            ],
+            [
+                'key' => 'userId',
+                'label' => 'Användar-id',
+                'formatter' => function (Account $account) {
+                    return $account->userId;
+                }
+            ],
+            [
+                'key' => 'accountType',
+                'label' => "Kontotyp",
                 'formatter' => function (Account $account) {
                     return $account->getSwedishType();
                 }
             ],
             [
-                'key' => 'fromAccountId',
-                'label' => 'Från',
+                'key' => 'balance',
+                'label' => "Saldo",
                 'formatter' => function (Account $account) {
-                    return $account->fromAccountId ?? "-";
-                }
-            ],
-            [
-                'key' => 'toAccountId',
-                'label' => "Till",
-                'formatter' => function (Account $account) {
-                    return $account->toAccountId ?? "-";
+                    return $account->balance;
                 }
             ],
             [
                 'key' => 'createdAt',
-                'label' => 'Datum'
-            ],
-            [
-                'key' => 'amount',
-                'label' => 'Belopp',
-                'formatter' => function (Account $account) {
-                    return $account->amount;
-                }
+                'label' => 'Skapad'
             ]
         ];
+
+        view('admin/accounts/table',
+            [
+                'columns' => $columns,
+                'paginator' => $accounts,
+                'baseUrl' => 'admin/accounts/table'
+            ],
+            null
+        );
     }
 }

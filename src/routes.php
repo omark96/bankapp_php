@@ -36,11 +36,15 @@ return function (Router $router) {
     $router->get('/admin', AdminController::class, 'index')->allowed(['admin']);
 
     $router->get('/admin/users', AdminUserController::class, 'index')->allowed(['admin']);
-
-    $router->get('/admin/accounts', AdminAccountController::class, 'index')->allowed(['admin']);
+    $router->get('/admin/users/table', AdminUserController::class, 'table')->allowed(['admin']);
+    $router->post('/admin/users/table', AdminUserController::class, 'table')->allowed(['admin']);
 
     $router->get('/admin/transactions', TransactionController::class, 'index')->allowed(['admin']);
     $router->get('/admin/transactions/table', TransactionController::class, 'table')->allowed(['admin']);
     $router->post('/admin/transactions/table', TransactionController::class, 'table')->allowed(['admin']);
+
+    $router->get('/admin/accounts', AdminAccountController::class, 'index')->allowed(['admin']);
+    $router->get('/admin/accounts/table', AdminAccountController::class, 'table')->allowed(['admin']);
+    $router->post('/admin/accounts/table', AdminAccountController::class, 'table')->allowed(['admin']);
 };
 

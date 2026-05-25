@@ -32,4 +32,12 @@ class Account
         return null;
     }
 
+    public function getSwedishType(): string
+    {
+        return match ($this->accountType) {
+            "checking" => "Privatkonto",
+            "saving" => "Sparkapitalkonto",
+            default => $this->accountType
+        };
+    }
 }
