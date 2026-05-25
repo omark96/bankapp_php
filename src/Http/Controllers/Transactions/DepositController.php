@@ -52,6 +52,6 @@ class DepositController
                 ->throw();
         }
 
-        redirect("/accounts/$accountId/deposit");
+        redirect("/accounts/$accountId");
     }
 }

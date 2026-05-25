@@ -14,5 +14,10 @@
 </div>
 
 <div id="tab-content" class="tab-content">
-    Användare
+    <div id="userTable"
+         hx-get="/admin/users/table"
+         hx-trigger="load"
+         hx-target="this"
+         hx-swap="innerHTML">
+    </div>
 </div>

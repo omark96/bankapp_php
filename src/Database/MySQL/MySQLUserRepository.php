@@ -3,6 +3,7 @@
 namespace Database\MySQL;
 
 use Core\Database;
+use Core\Types\PaginatedArray;
 use Database\Interfaces\UserRepository;
 use Models\User;
 
@@ -18,5 +19,37 @@ class MySQLUserRepository implements UserRepository
             'cardNumber' => $cardNumber
         ])->find();
         return User::fromDb($user);
+    }
+
+    public function getAllPaginated(int $page, int $limit)
+    {
+        $result = $this->db
+            ->query('
+                select 
+                    * 
+                from users as U
+                order by U.created_at desc
+                limit :limit offset :offset;
+            ',
+                [
+                    'limit' => $limit,
+                    'offset' => ($page - 1) * $limit
+                ])
+            ->findAll();
+
+        $rowCount = $this->db
+            ->query('
+            select 
+                count(*) as sum
+            from users
+            ')
+            ->find();
+
+        $users = [];
+        foreach ($result as $user) {
+            $users[] = User::fromDb($user);
+        }
+
+        return new PaginatedArray($users, $limit, $rowCount['sum'], $page);
     }
 }

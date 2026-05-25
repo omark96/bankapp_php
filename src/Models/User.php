@@ -2,14 +2,17 @@
 
 namespace Models;
 
+use DateTimeImmutable;
+
 class User
 {
     public function __construct(
-        public int     $id,
-        private string $cardNumber,
-        private string $pinHash,
-        public string  $name,
-        public string  $role
+        public int               $id,
+        public string            $cardNumber,
+        private string           $pinHash,
+        public string            $name,
+        public string            $role,
+        public DateTimeImmutable $createdAt
     )
     {
     }
@@ -17,12 +20,14 @@ class User
     public static function fromDb($user): ?self
     {
         if ($user) {
+            $created_at = new DateTimeImmutable($user['created_at']);
             return new self(
                 $user['id'],
                 $user['card_number'],
                 $user['pin_hash'],
                 $user['name'],
-                $user['role']
+                $user['role'],
+                $created_at
             );
         }
         return null;
