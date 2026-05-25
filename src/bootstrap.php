@@ -10,6 +10,10 @@ use Database\MySQL\MySQLAccountRepository;
 use Database\MySQL\MySQLTransactionRepository;
 use Database\MySQL\MySQLUserRepository;
 use Http\Controllers\AccountController;
+use Http\Controllers\Admin\AccountController as AdminAccountControllerAlias;
+use Http\Controllers\Admin\AdminController;
+use Http\Controllers\Admin\TransactionController as AdminTransactionControllerAlias;
+use Http\Controllers\Admin\UserController as AdminUserControllerAlias;
 use Http\Controllers\HomeController;
 use Http\Controllers\SessionController;
 use Http\Controllers\Transactions\DepositController;
@@ -32,10 +36,16 @@ $container->singleton(TransactionRepository::class, MySQLTransactionRepository::
 
 $container->bind(SessionController::class);
 $container->bind(HomeController::class);
+
 $container->bind(AccountController::class);
 $container->bind(DepositController::class);
 $container->bind(WithdrawController::class);
 $container->bind(TransferController::class);
+
+$container->bind(AdminController::class);
+$container->bind(AdminTransactionControllerAlias::class);
+$container->bind(AdminAccountControllerAlias::class);
+$container->bind(AdminUserControllerAlias::class);
 
 App::setServices($container);
 

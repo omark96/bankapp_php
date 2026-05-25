@@ -30,34 +30,46 @@ class PaginatedArray
         return $this->currentPage > 1;
     }
 
-    public function nextPage(): ?string
+    public function nextPage(string $baseUrl = null): ?string
     {
         if (!$this->hasNextPage()) {
             return null;
         }
+        if (!$baseUrl) {
+            $baseUrl = currentPath();
+        }
         $nextPage = $this->currentPage + 1;
 
-        return currentPath() . "?page=" . $nextPage;
+        return $baseUrl . "?page=" . $nextPage;
     }
 
-    public function previousPage(): ?string
+    public function previousPage(string $baseUrl = null): ?string
     {
         if (!$this->hasPreviousPage()) {
             return null;
         }
+        if (!$baseUrl) {
+            $baseUrl = currentPath();
+        }
         $previousPage = $this->currentPage - 1;
 
-        return currentPath() . "?page=" . $previousPage;
+        return $baseUrl . "?page=" . $previousPage;
     }
 
-    public function firstPage(): string
+    public function firstPage(string $baseUrl = null): string
     {
-        return currentPath() . "?page=1";
+        if (!$baseUrl) {
+            $baseUrl = currentPath();
+        }
+        return $baseUrl . "?page=1";
     }
 
-    public function lastPage(): string
+    public function lastPage(string $baseUrl = null): string
     {
-        return currentPath() . "?page=" . $this->totalPages();
+        if (!$baseUrl) {
+            $baseUrl = currentPath();
+        }
+        return $baseUrl . "?page=" . $this->totalPages();
     }
 
     public function currentlyShowing(): string

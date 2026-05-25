@@ -17,10 +17,19 @@ use Core\Auth; ?>
 </head>
 <body>
 <header class="header">
-    <h2>Olles Bank</h2>
+    <a href="/"><h2>Olles Bank</h2></a>
     <nav class="navbar">
+        <ul class="navbar__links">
+            <?php if (Auth::check()): ?>
+                <li><a href="/accounts" class="navbar__link">Konton</a></li>
+            <?php endif ?>
+            <?php if (Auth::isAdmin()): ?>
+                <li><a href="/admin" class="navbar__link">Admin</a></li>
+            <?php endif ?>
+        </ul>
         <?php if (Auth::check()): ?>
             <form action="/session" method="POST">
+                <?= csrf_field() ?>
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" class="navbar__link">
                     Logga ut
@@ -31,12 +40,6 @@ use Core\Auth; ?>
         <?php endif ?>
     </nav>
 </header>
-<aside class="sidebar">
-    <ul>
-        <li><a href="/">Hem</a></li>
-        <li><a href="/accounts">Konton</a></li>
-    </ul>
-</aside>
 <main>
     <?= $slot ?>
 </main>

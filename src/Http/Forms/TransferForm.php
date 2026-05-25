@@ -14,36 +14,39 @@ class TransferForm
 
     public function validate()
     {
-        $this->validatePinCode();
-        $this->validateCardNumber();
-
+        $this->validateAccountNumber();
+        $this->validateAmount();
         if (!empty($this->errors)) {
             $this->throw();
         }
     }
 
-    private function validatePinCode()
+    private function validateAccountNumber()
     {
-        $pinCode = $this->attributes['pinCode'];
-        $pinCode = trim($pinCode);
-        if (strlen($pinCode) != 4) {
-            $this->errors['pinCode'] = "Pinkoden måste vara exakt 4 siffror långt.";
+        $toAccountId = $this->attributes['toAccountId'];
+        $toAccountId = trim($toAccountId);
+        $fromAccountId = $this->attributes['accountId'];
+        $fromAccountId = trim($fromAccountId);
+
+        if ($fromAccountId === $toAccountId) {
+            $this->errors['toAccountId'] = "Kan inte överföra pengar till samma konto.";
         }
-        if (!is_numeric($pinCode)) {
-            $this->errors['pinCode'] = "Pinkoden kan enbart innehålla siffror.";
+
+        if (!is_numeric($toAccountId)) {
+            $this->errors['toAccountId'] = "Måste innehålla enbart siffror.";
         }
+
     }
 
-    private function validateCardNumber()
+    private function validateAmount()
     {
-        $cardNumber = $this->attributes['cardNumber'];
-        $cardNumber = trim($cardNumber);
-        $cardNumber = str_replace(' ', '', $cardNumber);
-        if (strlen($cardNumber) != 4) {
-            $this->errors['cardNumber'] = "Kortnummret måste vara exakt 4 siffror långt.";
+        $amount = $this->attributes['amount'];
+        $amount = trim($amount);
+        if ($amount <= 0) {
+            $this->errors['amount'] = "Du måste överföra mer än 0 kr.";
         }
-        if (!is_numeric($cardNumber)) {
-            $this->errors['cardNumber'] = "Kortnummret kan enbart innehålla siffror.";
+        if (!is_numeric($amount)) {
+            $this->errors['amount'] = "Måste innehålla enbart siffror.";
         }
     }
 

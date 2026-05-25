@@ -15,7 +15,6 @@ class DepositForm
     public function validate()
     {
         $this->validateAmount();
-
         if (!empty($this->errors)) {
             $this->throw();
         }

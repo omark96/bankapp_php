@@ -14,36 +14,22 @@ class WithdrawForm
 
     public function validate()
     {
-        $this->validatePinCode();
-        $this->validateCardNumber();
+        $this->validateAmount();
 
         if (!empty($this->errors)) {
             $this->throw();
         }
     }
 
-    private function validatePinCode()
+    private function validateAmount()
     {
-        $pinCode = $this->attributes['pinCode'];
-        $pinCode = trim($pinCode);
-        if (strlen($pinCode) != 4) {
-            $this->errors['pinCode'] = "Pinkoden måste vara exakt 4 siffror långt.";
+        $amount = $this->attributes['amount'];
+        $amount = trim($amount);
+        if ($amount <= 0) {
+            $this->errors['amount'] = "Du måste ta ut mer än 0 kr.";
         }
-        if (!is_numeric($pinCode)) {
-            $this->errors['pinCode'] = "Pinkoden kan enbart innehålla siffror.";
-        }
-    }
-
-    private function validateCardNumber()
-    {
-        $cardNumber = $this->attributes['cardNumber'];
-        $cardNumber = trim($cardNumber);
-        $cardNumber = str_replace(' ', '', $cardNumber);
-        if (strlen($cardNumber) != 4) {
-            $this->errors['cardNumber'] = "Kortnummret måste vara exakt 4 siffror långt.";
-        }
-        if (!is_numeric($cardNumber)) {
-            $this->errors['cardNumber'] = "Kortnummret kan enbart innehålla siffror.";
+        if (!is_numeric($amount)) {
+            $this->errors['amount'] = "Måste innehålla enbart siffror.";
         }
     }
 

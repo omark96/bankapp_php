@@ -27,7 +27,7 @@ use Models\Account;
 </div>
 
 <?php component('paginatedTable', [
-    'columns' => $columns,
-    'paginator' => $transactions
+        'columns' => $columns,
+        'paginator' => $transactions
 ]); ?>
 

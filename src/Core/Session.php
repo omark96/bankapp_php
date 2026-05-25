@@ -8,6 +8,11 @@ class Session
         $_SESSION[$key] = $value;
     }
 
+    public static function unset($key)
+    {
+        unset($_SESSION[$key]);
+    }
+
     public static function get($key, $default = null)
     {
         if (isset($_SESSION['_flash'][$key])) {

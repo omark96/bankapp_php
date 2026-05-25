@@ -2,7 +2,7 @@
 
 namespace Database\DTOs;
 
-readonly class CreateTransactionDTO
+readonly class CreateTransactionDto
 {
     public function __construct(
         public ?int   $fromAccountId,

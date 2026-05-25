@@ -77,6 +77,14 @@ $transactions = [
     ],
     [
         'id' => 4,
+        'from_account_id' => null,
+        'to_account_id' => 2,
+        'type' => 'deposit',
+        'amount' => 1000,
+        'created_at' => '2026-02-01'
+    ],
+    [
+        'id' => 5,
         'from_account_id' => 2,
         'to_account_id' => 1,
         'type' => 'transfer',
@@ -84,7 +92,7 @@ $transactions = [
         'created_at' => '2026-02-01'
     ],
     [
-        'id' => 5,
+        'id' => 6,
         'from_account_id' => null,
         'to_account_id' => 1,
         'type' => 'deposit',

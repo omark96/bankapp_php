@@ -3,9 +3,10 @@
 namespace Http\Controllers\Transactions;
 
 use Core\Auth;
-use Database\DTOs\CreateTransactionDTO;
+use Database\DTOs\CreateTransactionDto;
 use Database\Interfaces\AccountRepository;
 use Database\Interfaces\TransactionRepository;
+use Http\Controllers\AccountController;
 use Http\Forms\DepositForm;
 
 class DepositController
@@ -28,18 +29,17 @@ class DepositController
 
     public function store(int $accountId)
     {
-        dd($_POST);
         $amount = $_POST['amount'];
         $depositForm = new DepositForm(compact('amount'));
         $depositForm->validate();
 
         $account = $this->accountRepository->getById($accountId);
 
-        authorize($account->userId === Auth::user());
+        authorize($account->userId === Auth::user()->id);
 
-        $transaction = new CreateTransactionDTO(
-            $accountId,
+        $transaction = new CreateTransactionDto(
             null,
+            $accountId,
             "deposit",
             $amount
         );
@@ -51,6 +51,7 @@ class DepositController
                 ->error('amount', 'Kunde inte sätta in pengarna, var god försök igen senare.')
                 ->throw();
         }
-        redirect('/');
+
+        redirect("/accounts/$accountId/deposit");
     }
 }

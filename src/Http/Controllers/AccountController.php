@@ -3,7 +3,7 @@
 namespace Http\Controllers;
 
 use Core\Auth;
-use Database\DTOs\CreateTransactionDTO;
+use Database\DTOs\CreateTransactionDto;
 use Database\Interfaces\AccountRepository;
 use Database\Interfaces\TransactionRepository;
 use Http\Forms\DepositForm;
@@ -29,9 +29,9 @@ readonly class AccountController
     public function show(int $accountId)
     {
         $account = $this->accountRepository->getById($accountId);
+        authorize($account->userId == Auth::user()->id);
         $page = $_GET['page'] ?? 1;
         $transactions = $this->transactionRepository->getAllByAccountIdPaginated($accountId, $page, 3);
-        authorize($account->userId == Auth::user()->id);
 
         $columns = [
             [
@@ -62,11 +62,19 @@ readonly class AccountController
             [
                 'key' => 'amount',
                 'label' => 'Summa',
-                'formatter' => function (Transaction $transaction) {
-                    return match ($transaction->type) {
-                        "deposit" => $transaction->amount,
-                        default => "-" . $transaction->amount
-                    };
+                'formatter' => function (Transaction $transaction) use ($accountId) {
+                    if ($transaction->type === 'deposit') {
+                        return $transaction->amount;
+                    }
+
+                    if ($transaction->type === 'transfer') {
+                        if ($transaction->toAccountId === $accountId) {
+                            return $transaction->amount;
+                        }
+                        return "-" . $transaction->amount;
+                    }
+
+                    return "-" . $transaction->amount;
                 }
             ]
         ];

@@ -4,7 +4,8 @@ namespace Database\MySQL;
 
 use Core\Database;
 use Core\Types\PaginatedArray;
-use Database\DTOs\CreateTransactionDTO;
+use Database\DTOs\CreateTransactionDto;
+use Database\DTOs\TransactionFilterDto;
 use Database\Interfaces\TransactionRepository;
 use Models\Transaction;
 
@@ -14,9 +15,56 @@ class MySQLTransactionRepository implements TransactionRepository
     {
     }
 
-    public function getAllPaginated(int $page, int $limit): array
+    public function getAllPaginated(TransactionFilterDto $filter, int $page, int $limit): PaginatedArray
     {
-        // TODO: Implement getAllPaginated() method.
+        $baseSql = 'SELECT * FROM transactions';
+        $countSql = 'SELECT count(*) as sum FROM transactions';
+
+        $conditions = [];
+        $params = [];
+
+        if ($filter->startDate !== null) {
+            $conditions[] = 'created_at >= :startDate';
+            $params['startDate'] = $filter->startDate;
+        }
+
+        if ($filter->endDate !== null) {
+            $conditions[] = 'created_at <= :endDate';
+            $params['endDate'] = $filter->endDate;
+        }
+
+        if ($filter->type !== null) {
+            $conditions[] = 'type = :type';
+            $params['type'] = $filter->type;
+        }
+
+        $whereClause = '';
+        if (!empty($conditions)) {
+            $whereClause = ' WHERE ' . implode(' AND ', $conditions);
+        }
+
+        $rowCount = $this->db
+            ->query($countSql . $whereClause, $params)
+            ->find();
+
+        $dataSql = $baseSql . $whereClause . ' ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
+
+        $queryParams = array_merge($params, [
+            'limit' => $limit,
+            'offset' => ($page - 1) * $limit
+        ]);
+
+        $result = $this->db
+            ->query($dataSql, $queryParams)
+            ->findAll();
+
+
+        $transactions = [];
+        foreach ($result as $transaction) {
+            $transactions[] = Transaction::fromDb($transaction);
+        }
+
+        return new PaginatedArray($transactions, $limit, $rowCount['sum'], $page);
     }
 
     public function getById(int $id): ?Transaction
@@ -59,6 +107,7 @@ class MySQLTransactionRepository implements TransactionRepository
                     'offset' => ($page - 1) * $limit
                 ])
             ->findAll();
+
         $rowCount = $this->db
             ->query('
                 select 
@@ -69,14 +118,16 @@ class MySQLTransactionRepository implements TransactionRepository
                 'accountId' => $accountId
             ])
             ->find();
+
         $transactions = [];
         foreach ($result as $transaction) {
             $transactions[] = Transaction::fromDb($transaction);
         }
+
         return new PaginatedArray($transactions, $limit, $rowCount['sum'], $page);
     }
 
-    public function insert(CreateTransactionDTO $transaction): bool
+    public function insert(CreateTransactionDto $transaction): bool
     {
         try {
             $this->db->query('

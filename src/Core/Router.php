@@ -17,7 +17,7 @@ class Router
             'controller' => $controller,
             'method' => $method,
             'action' => $action,
-            'middleware' => null
+            'allowed' => []
         ];
 
         return $this;
@@ -48,6 +48,13 @@ class Router
         return $this->add('PUT', $uri, $controller, $action);
     }
 
+    public function allowed(array $allowed)
+    {
+        $latest = array_key_last($this->routes);
+        $this->routes[$latest]['allowed'] = $allowed;
+        return $this;
+    }
+
     public function route(string $uri, string $method)
     {
         foreach ($this->routes as $route) {
@@ -57,8 +64,11 @@ class Router
             if ($route['method'] === strtoupper($method) &&
                 preg_match($regex, $trimmedUri, $matches)
             ) {
+                $role = Auth::user()?->role ?? 'guest';
+                if (!empty($route['allowed'])) {
+                    authorize(in_array($role, $route['allowed']));
+                }
                 array_shift($matches);
-
                 $controller = App::resolve($route['controller']);
                 $action = $route['action'];
                 return $controller->$action(...$matches);

@@ -1,5 +1,6 @@
 <form action="/session" method="POST" class="loginForm">
     <div>
+        <?= csrf_field() ?>
         <label for="cardNumber">Kortnummer</label>
         <input id="cardNumber"
                type="text"

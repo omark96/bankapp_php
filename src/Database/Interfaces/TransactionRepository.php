@@ -3,12 +3,13 @@
 namespace Database\Interfaces;
 
 use Core\Types\PaginatedArray;
-use Database\DTOs\CreateTransactionDTO;
+use Database\DTOs\CreateTransactionDto;
+use Database\DTOs\TransactionFilterDto;
 use Models\Transaction;
 
 interface TransactionRepository
 {
-    public function getAllPaginated(int $page, int $limit): array;
+    public function getAllPaginated(TransactionFilterDto $filter, int $page, int $limit): PaginatedArray;
 
     public function getById(int $id): ?Transaction;
 
@@ -20,5 +21,5 @@ interface TransactionRepository
 
     public function getAllByAccountIdPaginated(int $accountId, int $page, int $limit): PaginatedArray;
 
-    public function insert(CreateTransactionDTO $transaction): bool;
+    public function insert(CreateTransactionDto $transaction): bool;
 }
