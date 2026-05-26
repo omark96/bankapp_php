@@ -14,6 +14,14 @@
 </div>
 
 <div id="tab-content" class="tab-content">
+
+    <button hx-get="/admin/users/create"
+            hx-target="this"
+            hx-swap="outerHTML"
+    >
+        Skapa ny användare
+    </button>
+
     <div id="userTable"
          hx-get="/admin/users/table"
          hx-trigger="load"

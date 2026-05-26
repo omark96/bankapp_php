@@ -2,6 +2,7 @@
 
 namespace Database\Interfaces;
 
+use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
 use Models\User;
 
@@ -14,4 +15,6 @@ interface UserRepository
     public function getAllPaginated(int $page, int $limit);
 
     public function update(UpdateUserDto $userDto): ?User;
+
+    public function insert(CreateUserDto $userDto): ?User;
 }

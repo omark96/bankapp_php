@@ -123,6 +123,10 @@ main {
     grid-area: footer;
 }
 
+.error-text {
+    color: #ff3232;
+}
+
 /* PAGES */
 
 /* COMPONENTS */
@@ -199,6 +203,22 @@ main {
             font-size: 2rem;
             text-decoration: none;
         }
+    }
+}
+
+#userCreationForm {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 1rem;
+    border: 1px solid white;
+    padding: 2rem;
+    margin: 2rem 0;
+
+    label {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
     }
 }
 

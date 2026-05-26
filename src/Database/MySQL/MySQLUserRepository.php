@@ -4,6 +4,7 @@ namespace Database\MySQL;
 
 use Core\Database;
 use Core\Types\PaginatedArray;
+use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
 use Database\Interfaces\UserRepository;
 use Exception;
@@ -88,10 +89,34 @@ class MySQLUserRepository implements UserRepository
                         'id' => $userDto->id
                     ]
                 );
+            return $this->getById($userDto->id);
         } catch (Exception) {
             return null;
         }
-        
-        return $this->getById($userDto->id);
+
+    }
+
+    public function insert(CreateUserDto $userDto): ?User
+    {
+        try {
+            $this->db
+                ->query('
+                    insert into 
+                        users (card_number, pin_hash, name, role)
+                    values 
+                        (:cardNumber, :pinHash, :name, :role)
+                ',
+                    [
+                        'cardNumber' => $userDto->cardNumber,
+                        'pinHash' => password_hash($userDto->pinCode, PASSWORD_DEFAULT),
+                        'name' => $userDto->name,
+                        'role' => $userDto->role
+                    ]);
+            $lastInserted = $this->db->lastInsertId();
+            
+            return $this->getById($lastInserted);
+        } catch (Exception) {
+            return null;
+        }
     }
 }

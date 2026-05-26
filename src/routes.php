@@ -37,6 +37,9 @@ return function (Router $router) {
 
     $router->get('/admin/users', AdminUserController::class, 'index')->allowed(['admin']);
     $router->get('/admin/users/{id}/edit', AdminUserController::class, 'edit')->allowed(['admin']);
+    $router->delete('/admin/users/{id}/destroy', AdminUserController::class, 'delete')->allowed(['admin']);
+    $router->get('/admin/users/create', AdminUserController::class, 'create')->allowed(['admin']);
+    $router->post('/admin/users/', AdminUserController::class, 'store')->allowed(['admin']);
     $router->patch('/admin/users/{id}', AdminUserController::class, 'update')->allowed(['admin']);
     $router->get('/admin/users/table', AdminUserController::class, 'table')->allowed(['admin']);
     $router->post('/admin/users/table', AdminUserController::class, 'table')->allowed(['admin']);

@@ -2,8 +2,10 @@
 
 namespace Http\Controllers\Admin;
 
+use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
 use Database\Interfaces\UserRepository;
+use Http\Forms\User\CreateUserForm;
 use Http\Forms\User\UpdateUserForm;
 use Models\User;
 
@@ -63,6 +65,65 @@ class UserController
             ]
         );
         exit();
+    }
+
+    public function destroy(int $id)
+    {
+        dd($_POST);
+    }
+
+    public function create()
+    {
+        $userDto = new CreateUserDto();
+        view('admin/users/create',
+            [
+                'user' => $userDto,
+                'errors' => []
+            ],
+            null
+        );
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $role = $_POST['role'];
+        $cardNumber = $_POST['cardNumber'];
+        $pinCode = $_POST['pinCode'];
+
+        $createForm = new CreateUserForm(compact('cardNumber', 'pinCode', 'role', 'name'));
+        $createForm->validate();
+
+        $userDto = new CreateUserDto($name, $role, $cardNumber, $pinCode);
+
+        if ($createForm->failed()) {
+            view('admin/users/create',
+                [
+                    'user' => $userDto,
+                    'errors' => $createForm->errors()
+                ],
+                null
+            );
+            exit();
+        }
+
+        $user = $this->userRepository->insert($userDto);
+
+        if (!$user) {
+            if ($createForm->failed()) {
+                $createForm->error('cardNumber', 'Kunde inte skapa en användare');
+                view('admin/users/create',
+                    [
+                        'user' => $userDto,
+                        'errors' => $createForm->errors()
+                    ],
+                    null
+                );
+                exit();
+            }
+        }
+
+        header('HX-Trigger: refreshTabs');
     }
 
     public function table()
