@@ -36,7 +36,7 @@ use Models\User;
         <button
                 hx-post="/admin/users/<?= e($user->id) ?>/destroy"
                 hx-confirm="Are you sure you want to delete this user?"
-                hx-vals='{"_method": "DELETE", "csrf_token": "<?= csrf_token() ?>"}'
+                hx-vals='{"_method": "DELETE", "csrf_token": "<?= e(csrf_token()) ?>"}'
         >
             Ta bort
         </button>

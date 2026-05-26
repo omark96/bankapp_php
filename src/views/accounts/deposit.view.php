@@ -7,7 +7,7 @@
     <label for="amount"> Att sätta in:</label>
     <input type="number" step="0.01" name="amount">
     <?php if (isset($errors['amount'])): ?>
-        <p><?= $errors['amount'] ?></p>
+        <p><?= e($errors['amount']) ?></p>
     <?php endif ?>
     <button type="submit">Sätt in</button>
     <a href="/accounts/<?= e($accountId) ?>">Avbryt</a>

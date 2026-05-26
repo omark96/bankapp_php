@@ -7,7 +7,7 @@
                name="cardNumber"
                required>
         <?php if (isset($errors['cardNumber'])): ?>
-            <p><?= $errors['cardNumber'] ?></p>
+            <p><?= e($errors['cardNumber']) ?></p>
         <?php endif ?>
     </div>
     <div>
@@ -17,7 +17,7 @@
                name="pinCode"
                required>
         <?php if (isset($errors['pinCode'])): ?>
-            <p><?= $errors['pinCode'] ?></p>
+            <p><?= e($errors['pinCode']) ?></p>
         <?php endif ?>
     </div>
     <button type="submit">Log in</button>
