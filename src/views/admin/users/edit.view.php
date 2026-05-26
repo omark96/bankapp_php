@@ -1,10 +1,13 @@
 <?php
-/** @var User $user */
+/** @var UpdateUserDto $user */
 
-use Models\User;
+/** @var array $errors */
+
+use Database\DTOs\UpdateUserDto;
 
 ?>
-<tr id="user-row-<?= e($user->id) ?>">
+<tbody id="user-block-<?= e($user->id) ?>">
+<tr class="paginated-table__row">
     <td class="paginated-table__cell">
         <?= csrf_field() ?>
         <input type="hidden" name="_method" value="PATCH">
@@ -12,7 +15,6 @@ use Models\User;
         <?= e($user->id) ?>
     </td>
     <td class="paginated-table__cell">
-
         <input type="text" name="cardNumber" value="<?= e($user->cardNumber) ?>">
     </td>
     <td class="paginated-table__cell">
@@ -25,14 +27,14 @@ use Models\User;
         </select>
     </td>
     <td class="paginated-table__cell">
-        <?= e($user->createdAt->format("Y-m-d")) ?>
+        -
     </td>
     <td class="paginated-table__cell">
         <button
                 hx-post="/admin/users/<?= e($user->id) ?>"
                 hx-include="closest tr"
-                hx-target="#userTable"
-                hx-swap="innerHTML"
+                hx-target="#user-block-<?= e($user->id) ?>"
+                hx-swap="outerHTML"
         >
             Save
         </button>
@@ -45,3 +47,13 @@ use Models\User;
         </button>
     </td>
 </tr>
+<?php if (isset($errors)): ?>
+    <?php foreach ($errors as $error): ?>
+        <tr class="paginated-table__row ">
+            <td colspan="6" class="paginated-table__cell--error">
+                <?= e($error) ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php endif ?>
+</tbody>

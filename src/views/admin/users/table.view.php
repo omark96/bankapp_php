@@ -35,37 +35,10 @@ $rows = $paginator->items;
             </thead>
             <tbody class="paginated-table__body">
             <?php foreach ($rows as $user): ?>
-                <tr id="user-row-<?= e($user->id) ?>"
-                    class="paginated-table__row"
-                    hx-target="this"
-                    hx-swap="outerHTML"
-                >
-                    <?php foreach ($columns as $column): ?>
-                        <td class="paginated-table__cell">
-                            <?php
-                            if (isset($column['formatter'])) {
-                                echo e($column['formatter']($user));
-                            } else {
-                                $value = $user->{$column['key']};
-                                if ($value instanceof DateTimeImmutable) {
-                                    $value = $value->format("Y-m-d");
-                                }
-                                echo e((string)$value);
-                            }
-                            ?>
-                        </td>
-                    <?php endforeach; ?>
-                    <td class="paginated-table__cell">
-                        <button
-                                hx-get="/admin/users/<?= e($user->id) ?>/edit"
-                        >
-                            Redigera
-                        </button>
-                        <button>
-                            Ta bort
-                        </button>
-                    </td>
-                </tr>
+                <?php component('users/row', [
+                        'user' => $user,
+                        'columns' => $columns
+                ]) ?>
             <?php endforeach; ?>
             </tbody>
         </table>

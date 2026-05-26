@@ -2,7 +2,9 @@
 
 namespace Http\Controllers\Admin;
 
+use Database\DTOs\UpdateUserDto;
 use Database\Interfaces\UserRepository;
+use Http\Forms\User\UpdateUserForm;
 use Models\User;
 
 class UserController
@@ -28,9 +30,39 @@ class UserController
             null);
     }
 
-    public function update()
+    public function update(int $id)
     {
-        dd($_POST);
+        $cardNumber = $_POST['cardNumber'];
+        $role = $_POST['role'];
+        $name = $_POST['name'];
+
+        $updateForm = new UpdateUserForm(compact('cardNumber', 'role', 'name'));
+        $updateForm->validate();
+
+        $userDto = new UpdateUserDto($id, $name, $role, $cardNumber);
+
+        if ($updateForm->failed()) {
+            view('admin/users/edit',
+                [
+                    'user' => $userDto,
+                    'errors' => $updateForm->errors()
+                ],
+                null);
+            exit();
+        }
+
+
+        $user = $this->userRepository->update($userDto);
+        if (!$user) {
+            $user = $this->userRepository->getById($id);
+        }
+        component('users/row',
+            [
+                'user' => $user,
+                'columns' => $this->columns()
+            ]
+        );
+        exit();
     }
 
     public function table()
@@ -38,7 +70,21 @@ class UserController
         $page = $_GET['page'] ?? 1;
         $users = $this->userRepository->getAllPaginated($page, 3);
 
-        $columns = [
+        $columns = $this->columns();
+
+        view('admin/users/table',
+            [
+                'paginator' => $users,
+                'baseUrl' => 'admin/users/table',
+                'columns' => $columns
+            ],
+            null
+        );
+    }
+
+    private function columns()
+    {
+        return [
             [
                 'key' => 'id',
                 'label' => 'Id',
@@ -72,14 +118,5 @@ class UserController
                 'label' => 'Skapad'
             ]
         ];
-
-        view('admin/users/table',
-            [
-                'columns' => $columns,
-                'paginator' => $users,
-                'baseUrl' => 'admin/users/table'
-            ],
-            null
-        );
     }
 }

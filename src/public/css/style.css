@@ -138,22 +138,26 @@ main {
             border-bottom: 1px solid #eaeaea;
         }
 
+
         .paginated-table__cell--header {
             background-color: #3d3d3d;
             color: #ffffff;
             font-size: 1rem;
         }
 
-        .paginated-table__body {
-            .paginated-table__row:hover {
-                background-color: #303030;
+        .paginated-table__cell--error {
+            color: #ff3232;
+        }
+
+        .paginated-table__row:hover {
+            background-color: #303030;
+        }
+
+        .paginated-table__row:last-of-type {
+            .paginated-table__cell {
+                border-bottom: none;
             }
 
-            .paginated-table__row:last-of-type {
-                .paginated-table__cell {
-                    border-bottom: none;
-                }
-            }
         }
     }
 

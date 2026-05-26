@@ -4,7 +4,9 @@ namespace Database\MySQL;
 
 use Core\Database;
 use Core\Types\PaginatedArray;
+use Database\DTOs\UpdateUserDto;
 use Database\Interfaces\UserRepository;
+use Exception;
 use Models\User;
 
 class MySQLUserRepository implements UserRepository
@@ -68,5 +70,28 @@ class MySQLUserRepository implements UserRepository
             ->find();
 
         return User::fromDb($result);
+    }
+
+    public function update(UpdateUserDto $userDto): ?User
+    {
+        try {
+            $this->db
+                ->query('
+                update users
+                set role = :role, name = :name, card_number = :cardNumber
+                where users.id = :id
+            ',
+                    [
+                        'role' => $userDto->role,
+                        'name' => $userDto->name,
+                        'cardNumber' => $userDto->cardNumber,
+                        'id' => $userDto->id
+                    ]
+                );
+        } catch (Exception) {
+            return null;
+        }
+        
+        return $this->getById($userDto->id);
     }
 }

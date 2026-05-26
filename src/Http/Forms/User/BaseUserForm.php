@@ -17,6 +17,11 @@ abstract class BaseUserForm
         return $this->errors;
     }
 
+    public function failed()
+    {
+        return !empty($this->errors);
+    }
+
     protected function validateRole()
     {
         if (!isset($this->attributes['role'])) {
@@ -25,7 +30,7 @@ abstract class BaseUserForm
         }
         $role = $this->attributes['role'];
         $role = trim($role);
-        if ($role === 'admin' || $role === 'user') {
+        if ($role !== 'admin' && $role !== 'user') {
             $this->errors['role'] = 'Kan inte lägga till den rollen';
         }
     }
@@ -39,7 +44,7 @@ abstract class BaseUserForm
         $name = $this->attributes['name'];
         $name = trim($name);
 
-        if (strlen($name) > 1) {
+        if (strlen($name) < 1) {
             $this->errors['name'] = 'För kort namn';
         }
     }
