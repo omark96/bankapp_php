@@ -69,7 +69,9 @@ class UserController
 
     public function destroy(int $id)
     {
-        dd($_POST);
+        $this->userRepository->delete($id);
+
+        header('HX-Trigger: refreshTabs');
     }
 
     public function create()

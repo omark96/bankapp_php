@@ -16,8 +16,6 @@ $router = new Router();
 $registerRoutes = require base_path('routes.php');
 $registerRoutes($router);
 
-csrf_token();
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verify();
 }

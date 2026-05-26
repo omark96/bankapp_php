@@ -17,4 +17,6 @@ interface UserRepository
     public function update(UpdateUserDto $userDto): ?User;
 
     public function insert(CreateUserDto $userDto): ?User;
+
+    public function delete(int $id): bool;
 }

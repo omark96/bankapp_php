@@ -113,10 +113,26 @@ class MySQLUserRepository implements UserRepository
                         'role' => $userDto->role
                     ]);
             $lastInserted = $this->db->lastInsertId();
-            
+
             return $this->getById($lastInserted);
         } catch (Exception) {
             return null;
+        }
+    }
+
+    public function delete(int $id): bool
+    {
+        try {
+            $this->db
+                ->query('
+                    delete from users
+                    where id = :id
+                ', [
+                    'id' => $id
+                ]);
+            return true;
+        } catch (Exception) {
+            return false;
         }
     }
 }
