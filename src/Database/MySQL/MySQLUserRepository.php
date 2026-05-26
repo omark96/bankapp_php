@@ -13,7 +13,7 @@ class MySQLUserRepository implements UserRepository
     {
     }
 
-    public function getByCardNumber(string $cardNumber): User
+    public function getByCardNumber(string $cardNumber): ?User
     {
         $user = $this->db->query('select * from users where card_number = :cardNumber', [
             'cardNumber' => $cardNumber
@@ -51,5 +51,22 @@ class MySQLUserRepository implements UserRepository
         }
 
         return new PaginatedArray($users, $limit, $rowCount['sum'], $page);
+    }
+
+    public function getById(int $id): ?User
+    {
+        $result = $this->db
+            ->query('
+                select 
+                    * 
+                from users
+                where users.id = :id
+            ',
+                [
+                    'id' => $id
+                ])
+            ->find();
+
+        return User::fromDb($result);
     }
 }

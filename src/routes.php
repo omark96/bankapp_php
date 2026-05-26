@@ -36,6 +36,8 @@ return function (Router $router) {
     $router->get('/admin', AdminController::class, 'index')->allowed(['admin']);
 
     $router->get('/admin/users', AdminUserController::class, 'index')->allowed(['admin']);
+    $router->get('/admin/users/{id}/edit', AdminUserController::class, 'edit')->allowed(['admin']);
+    $router->patch('/admin/users/{id}', AdminUserController::class, 'update')->allowed(['admin']);
     $router->get('/admin/users/table', AdminUserController::class, 'table')->allowed(['admin']);
     $router->post('/admin/users/table', AdminUserController::class, 'table')->allowed(['admin']);
 

@@ -10,7 +10,9 @@ use Core\Types\PaginatedArray;
 $rows = $paginator->items;
 
 ?>
-<div hx-target="this">
+<div hx-target="this"
+     id="userTable"
+>
     <form hx-post="/admin/users/table"
           hx-trigger="change"
           hx-swap="innerHTML"
@@ -28,18 +30,23 @@ $rows = $paginator->items;
                         <?= e($column['label']) ?>
                     </th>
                 <?php endforeach; ?>
+                <th class="paginated-table__cell paginated-table__cell--header"></th>
             </tr>
             </thead>
             <tbody class="paginated-table__body">
-            <?php foreach ($rows as $row): ?>
-                <tr class="paginated-table__row">
+            <?php foreach ($rows as $user): ?>
+                <tr id="user-row-<?= e($user->id) ?>"
+                    class="paginated-table__row"
+                    hx-target="this"
+                    hx-swap="outerHTML"
+                >
                     <?php foreach ($columns as $column): ?>
                         <td class="paginated-table__cell">
                             <?php
                             if (isset($column['formatter'])) {
-                                echo e($column['formatter']($row));
+                                echo e($column['formatter']($user));
                             } else {
-                                $value = $row->{$column['key']};
+                                $value = $user->{$column['key']};
                                 if ($value instanceof DateTimeImmutable) {
                                     $value = $value->format("Y-m-d");
                                 }
@@ -48,6 +55,16 @@ $rows = $paginator->items;
                             ?>
                         </td>
                     <?php endforeach; ?>
+                    <td class="paginated-table__cell">
+                        <button
+                                hx-get="/admin/users/<?= e($user->id) ?>/edit"
+                        >
+                            Redigera
+                        </button>
+                        <button>
+                            Ta bort
+                        </button>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

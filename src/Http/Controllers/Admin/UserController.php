@@ -18,6 +18,21 @@ class UserController
         view('admin/users/index', [], null);
     }
 
+    public function edit(int $id)
+    {
+        $user = $this->userRepository->getById($id);
+        view('admin/users/edit',
+            [
+                'user' => $user
+            ],
+            null);
+    }
+
+    public function update()
+    {
+        dd($_POST);
+    }
+
     public function table()
     {
         $page = $_GET['page'] ?? 1;

@@ -4,6 +4,8 @@
 <h1>Admin</h1>
 <div id="tabs"
      hx-get="/admin/users"
-     hx-trigger="load delay:100ms"
+     hx-trigger="load"
      hx-target="#tabs"
-     hx-swap="innerHTML"></div>
+     hx-swap="innerHTML"
+     hx-boost="true"
+></div>
