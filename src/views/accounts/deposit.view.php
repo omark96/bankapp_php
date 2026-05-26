@@ -5,7 +5,7 @@
 <form method="POST" action="/accounts/<?= e($accountId) ?>/deposit">
     <?= csrf_field() ?>
     <label for="amount"> Att sätta in:</label>
-    <input type="number" name="amount">
+    <input type="number" step="0.01" name="amount">
     <?php if (isset($errors['amount'])): ?>
         <p><?= $errors['amount'] ?></p>
     <?php endif ?>
