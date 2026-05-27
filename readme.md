@@ -2,13 +2,14 @@
 
 Clone into `laragon\www\`.
 
-Open `cmder` from Laragon and `cd` into `laragon\www\bankapp`.
+Open `cmder` from Laragon and `cd` into `laragon\www\bankapp_php`.
 
 Run `composer dump-autoload`.
 
-Edit the `config.php` file found in `/src` with your credentials and database connection.
+Create the database you want to use for this application. Edit the `config.php` file found in `/src` with your
+credentials and database connection.
 
-`cd` into `bankapp\src` and run `php setup.php`. This will delete the database if it exists,
+`cd` into `bankapp_php\src` and run `php setup.php`. This will delete the database if it exists,
 create a new database using the config from `config.php` and finally seed the database.
 
 If you instead wish to manually create the database using the schema it can be found in `src/schema.sql`.
@@ -19,14 +20,15 @@ You can then run `php setup.php seed` to only seed the database.
 Right-click on the Laragon window and select `Apache->sites-enabled->auto.bankapp.test.conf` (If you can't see this
 option try and reload apache).
 
-In the config change the document root and directory from `laragon/www/Bankapp/` to `laragon/www/Bankapp/src/public`.
+In the config change the document root and directory from `laragon/www/bankapp_php/` to
+`laragon/www/bankapp_php/src/public`.
 
-If Apache is still running you should now be able to access the site through `www.bankapp.test`.
+If Apache is still running you should now be able to access the site through `www.bankapp_php.test`.
 
 ### Option 2: Laragon with PHP built-in server
 
-Open `cmder` from Laragon and cd into `laragon\www\bankapp\` and run `php -S localhost:8000 -t public`.
-The website should now be avilable on `localhost:8000`.
+Open `cmder` from Laragon and cd into `laragon\www\bankapp_php\` and run `php -S localhost:8000 -t public`.
+The website should now be available on `localhost:8000`.
 
 # Usage
 
