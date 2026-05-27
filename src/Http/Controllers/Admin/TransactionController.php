@@ -29,14 +29,12 @@ readonly class TransactionController
             $startDate = strlen($_POST['startDate']) > 0 ? $_POST['startDate'] : null;
             $endDate = strlen($_POST['endDate']) > 0 ? $_POST['endDate'] : null;
             $type = strlen($_POST['type']) > 0 ? $_POST['type'] : null;
-            $filter = new TransactionFilterDto(
-                $startDate,
-                $endDate,
-                $type
-            );
-        } else {
-            $filter = new TransactionFilterDto();
         }
+        $filter = new TransactionFilterDto(
+            $startDate,
+            $endDate,
+            $type
+        );
         $page = $_GET['page'] ?? 1;
 
         $transactions = $this->transactionRepository->getAllPaginated($filter, $page, 20);
