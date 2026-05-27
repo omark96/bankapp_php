@@ -27,7 +27,7 @@ If Apache is still running you should now be able to access the site through `ww
 
 ### Option 2: Laragon with PHP built-in server
 
-Open `cmder` from Laragon and cd into `laragon\www\bankapp_php\` and run `php -S localhost:8000 -t public`.
+Open `cmder` from Laragon and cd into `laragon\www\bankapp_php\src` and run `php -S localhost:8000 -t public`.
 The website should now be available on `localhost:8000`.
 
 # Usage
