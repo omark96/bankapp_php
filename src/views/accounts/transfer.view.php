@@ -17,7 +17,7 @@
     <label for="toAccount" class="bank-form__label"> Till konto:
         <input type="number" name="toAccountId">
         <?php if (isset($errors['toAccountId'])): ?>
-            <p><?= e($errors['toAccountId']) ?></p>
+            <p class="error-text"><?= e($errors['toAccountId']) ?></p>
         <?php endif ?>
     </label>
     <div>
