@@ -3,13 +3,18 @@
 /** @var array $errors */
 ?>
 
-<form hx-post="/accounts/<?= e($accountId) ?>/deposit">
+<form hx-post="/accounts/<?= e($accountId) ?>/deposit"
+      class="bank-form"
+>
     <?= csrf_field() ?>
-    <label for="amount"> Att sätta in:</label>
-    <input type="number" step="0.01" name="amount">
-    <?php if (isset($errors['amount'])): ?>
-        <p><?= e($errors['amount']) ?></p>
-    <?php endif ?>
-    <button type="submit">Sätt in</button>
-    <a href="/accounts/<?= e($accountId) ?>">Avbryt</a>
+    <label for="amount" class="bank-form__label"> Att sätta in:
+        <input type="number" step="0.01" name="amount">
+        <?php if (isset($errors['amount'])): ?>
+            <p><?= e($errors['amount']) ?></p>
+        <?php endif ?>
+    </label>
+    <div>
+        <button type="submit">Sätt in</button>
+        <a href="/accounts/<?= e($accountId) ?>">Avbryt</a>
+    </div>
 </form>

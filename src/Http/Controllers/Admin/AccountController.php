@@ -21,7 +21,7 @@ readonly class AccountController
     public function table(): void
     {
         $page = $_GET['page'] ?? 1;
-        $accounts = $this->accountRepository->getAllPaginated($page, 3);
+        $accounts = $this->accountRepository->getAllPaginated($page, 20);
 
         $columns = [
             [

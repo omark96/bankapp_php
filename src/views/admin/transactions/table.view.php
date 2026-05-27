@@ -20,31 +20,34 @@ $rows = $paginator->items;
     <form hx-post="/admin/transactions/table"
           hx-trigger="change"
           hx-swap="innerHTML"
-          class="filterForm"
+          class="filter-form"
           id="transactionsFilterForm"
     >
         <?= csrf_field() ?>
-        <label for="startDate">Från</label>
-        <input class="filterForm__input"
-               type="date"
-               name="startDate"
-               placeholder="Start Date"
-               value="<?= e($startDate) ?>"
-        >
-        <label for="endDate">Till</label>
-        <input class="filterForm__input"
-               type="date"
-               name="endDate"
-               placeholder="End Date"
-               value="<?= e($endDate) ?>"
-        >
-        <label for="type">Transaktionstyp</label>
-        <select class="filterForm__input" name="type">
-            <option value="" <?= $type === '' || $type === null ? 'selected' : '' ?>>Alla</option>
-            <option value="withdraw" <?= $type === 'withdraw' ? 'selected' : '' ?>>Uttag</option>
-            <option value="deposit" <?= $type === 'deposit' ? 'selected' : '' ?>>Insättning</option>
-            <option value="transfer" <?= $type === 'transfer' ? 'selected' : '' ?>>Överföring</option>
-        </select>
+        <label for="startDate" class="filter-form__label">Från
+            <input class="filter-form__input"
+                   type="date"
+                   name="startDate"
+                   placeholder="Start Date"
+                   value="<?= e($startDate) ?>"
+            >
+        </label>
+        <label for="endDate" class="filter-form__label">Till
+            <input class="filter-form__input"
+                   type="date"
+                   name="endDate"
+                   placeholder="End Date"
+                   value="<?= e($endDate) ?>"
+            >
+        </label>
+        <label for="type" class="filter-form__label">Transaktionstyp
+            <select class="filter-form__input" name="type">
+                <option value="" <?= $type === '' || $type === null ? 'selected' : '' ?>>Alla</option>
+                <option value="withdraw" <?= $type === 'withdraw' ? 'selected' : '' ?>>Uttag</option>
+                <option value="deposit" <?= $type === 'deposit' ? 'selected' : '' ?>>Insättning</option>
+                <option value="transfer" <?= $type === 'transfer' ? 'selected' : '' ?>>Överföring</option>
+            </select>
+        </label>
 
     </form>
     <div class="paginated-table">

@@ -29,7 +29,7 @@ readonly class AccountController
         $account = $this->accountRepository->getById($accountId);
         authorize($account->userId == Auth::user()->id);
         $page = $_GET['page'] ?? 1;
-        $transactions = $this->transactionRepository->getAllByAccountIdPaginated($accountId, $page, 3);
+        $transactions = $this->transactionRepository->getAllByAccountIdPaginated($accountId, $page, 20);
 
         $columns = [
             [

@@ -39,7 +39,7 @@ readonly class TransactionController
         }
         $page = $_GET['page'] ?? 1;
 
-        $transactions = $this->transactionRepository->getAllPaginated($filter, $page, 3);
+        $transactions = $this->transactionRepository->getAllPaginated($filter, $page, 20);
 
         $columns = [
             [
