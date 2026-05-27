@@ -55,6 +55,13 @@ readonly class AccountController
             [
                 'key' => 'createdAt',
                 'label' => 'Skapad'
+            ],
+            [
+                'key' => 'deleted',
+                'label' => 'Borttagen',
+                'formatter' => function (Account $account) {
+                    return $account->deleted ? 'Ja' : 'Nej';
+                }
             ]
         ];
 

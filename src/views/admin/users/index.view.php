@@ -15,7 +15,8 @@
 
 <div id="tab-content" class="tab-content">
 
-    <button hx-get="/admin/users/create"
+    <button class="btn"
+            hx-get="/admin/users/create"
             hx-target="this"
             hx-swap="outerHTML"
     >

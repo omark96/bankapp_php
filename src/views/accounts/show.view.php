@@ -11,16 +11,19 @@ use Models\Account;
 ?>
 
 <div class="account-actions" hx-target="this" hx-swap="outerHTML">
-    <h3 class="account-actions__">Vad vill du göra?</h3>
-    <button hx-get="/accounts/<?= e($account->id) ?>/withdraw">
+    <h3 class="account-actions__title">Vad vill du göra?</h3>
+    <button class="btn"
+            hx-get="/accounts/<?= e($account->id) ?>/withdraw">
         Ta ut
     </button>
 
-    <button hx-get="/accounts/<?= e($account->id) ?>/deposit">
+    <button class="btn"
+            hx-get="/accounts/<?= e($account->id) ?>/deposit">
         Sätta in
     </button>
 
-    <button hx-get="/accounts/<?= e($account->id) ?>/transfer">
+    <button class="btn"
+            hx-get="/accounts/<?= e($account->id) ?>/transfer">
         Överföra
     </button>
 </div>

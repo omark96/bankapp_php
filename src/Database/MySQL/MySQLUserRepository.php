@@ -19,7 +19,12 @@ readonly class MySQLUserRepository implements UserRepository
 
     public function getByCardNumber(string $cardNumber): ?User
     {
-        $user = $this->db->query('select * from users where card_number = :cardNumber', [
+        $user = $this->db->query('
+            select * 
+            from users 
+            where card_number = :cardNumber
+            and deleted != 1
+            ', [
             'cardNumber' => $cardNumber
         ])->find();
         return User::fromDb($user);
@@ -83,7 +88,8 @@ readonly class MySQLUserRepository implements UserRepository
                 select 
                     * 
                 from users
-                where users.id = :id
+                where users.id = :id and
+                users.deleted != 1
             ',
                 [
                     'id' => $id
@@ -101,6 +107,7 @@ readonly class MySQLUserRepository implements UserRepository
                 update users
                 set role = :role, name = :name, card_number = :cardNumber
                 where users.id = :id
+                and deleted != 1
             ',
                     [
                         'role' => $userDto->role,
@@ -145,13 +152,22 @@ readonly class MySQLUserRepository implements UserRepository
         try {
             $this->db
                 ->query('
-                    delete from users
+                    update users
+                    set deleted = 1
                     where id = :id
                 ', [
                     'id' => $id
                 ]);
+            $this->db
+                ->query('
+                    update accounts
+                    set deleted = 1
+                    where user_id = :userId
+                ', [
+                    'userId' => $id
+                ]);
             return true;
-        } catch (Exception) {
+        } catch (Exception $e) {
             return false;
         }
     }

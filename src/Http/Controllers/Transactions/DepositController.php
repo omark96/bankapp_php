@@ -32,7 +32,13 @@ readonly class DepositController
 
         $depositForm = new DepositForm(compact('amount'));
         $depositForm->validate();
-        
+
+        $account = $this->accountRepository->getById($accountId);
+
+        if ($account->deleted) {
+            $depositForm->error('account', "Kan inte sätta in på det här kontot.");
+        }
+
         if ($depositForm->failed()) {
             view('accounts/deposit',
                 [
@@ -43,7 +49,6 @@ readonly class DepositController
             exit();
         }
 
-        $account = $this->accountRepository->getById($accountId);
 
         authorize($account->userId === Auth::user()->id);
 

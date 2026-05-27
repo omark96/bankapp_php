@@ -114,7 +114,7 @@ body {
 main {
     grid-area: main;
     min-height: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
     padding: 20px 20px;
 }
@@ -130,7 +130,7 @@ main {
 /* COMPONENTS */
 .paginated-table {
     .paginated-table__table {
-        width: 800px;
+        width: 900px;
         font-size: 1rem;
         text-align: left;
         background-color: #252525;
@@ -161,6 +161,14 @@ main {
                 border-bottom: none;
             }
 
+        }
+
+        .paginated-table__button {
+            background-color: #3d3d3d;
+        }
+
+        .paginated-table__button--warning {
+            background-color: #980b0b;
         }
     }
 
@@ -255,5 +263,16 @@ main {
 }
 
 .btn {
+    padding: 0.5rem 1rem;
+    background-color: #303030;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
 
+.account-actions {
+    .account-actions__title {
+        margin-bottom: 1rem;
+    }
 }

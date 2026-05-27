@@ -11,6 +11,7 @@ CREATE TABLE Users
     pin_hash    VARCHAR(255) NOT NULL,
     name        VARCHAR(255) NOT NULL,
     role        VARCHAR(50)  NOT NULL,
+    deleted     BOOL         NOT NULL DEFAULT FALSE,
     created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -20,6 +21,7 @@ CREATE TABLE Accounts
     user_id      INT         NOT NULL,
     account_type VARCHAR(50) NOT NULL,
     created_at   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted      BOOL        NOT NULL DEFAULT FALSE,
 
     FOREIGN KEY (user_id) REFERENCES Users (id)
 );

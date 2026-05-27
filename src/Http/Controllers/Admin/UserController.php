@@ -75,8 +75,9 @@ readonly class UserController
 
     public function destroy(int $id): void
     {
-        $this->userRepository->delete($id);
-
+        if ($id !== Auth::user()->id) {
+            $success = $this->userRepository->delete($id);
+        }
         header('HX-Trigger: refreshTabs');
     }
 
@@ -199,6 +200,13 @@ readonly class UserController
             [
                 'key' => 'createdAt',
                 'label' => 'Skapad'
+            ],
+            [
+                'key' => 'deleted',
+                'label' => 'Borttagen',
+                'formatter' => function (User $user) {
+                    return $user->deleted ? 'Ja' : 'Nej';
+                }
             ]
         ];
     }

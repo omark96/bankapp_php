@@ -28,18 +28,20 @@ use Models\User;
         </td>
     <?php endforeach; ?>
     <td class="paginated-table__cell">
-        <button
-                hx-get="/admin/users/<?= e($user->id) ?>/edit"
-        >
-            Redigera
-        </button>
-        <button
-                hx-post="/admin/users/<?= e($user->id) ?>/destroy"
-                hx-confirm="Are you sure you want to delete this user?"
-                hx-vals='{"_method": "DELETE", "csrf_token": "<?= e(csrf_token()) ?>"}'
-        >
-            Ta bort
-        </button>
+        <?php if (!$user->deleted): ?>
+            <button class="btn paginated-table__button"
+                    hx-get="/admin/users/<?= e($user->id) ?>/edit"
+            >
+                Redigera
+            </button>
+            <button class="btn paginated-table__button--warning"
+                    hx-post="/admin/users/<?= e($user->id) ?>/destroy"
+                    hx-confirm="Are you sure you want to delete this user?"
+                    hx-vals='{"_method": "DELETE", "csrf_token": "<?= e(csrf_token()) ?>"}'
+            >
+                Ta bort
+            </button>
+        <?php endif ?>
     </td>
 </tr>
 </tbody>

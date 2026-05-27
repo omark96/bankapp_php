@@ -12,7 +12,8 @@ class User
         private string           $pinHash,
         public string            $name,
         public string            $role,
-        public DateTimeImmutable $createdAt
+        public DateTimeImmutable $createdAt,
+        public bool              $deleted
     )
     {
     }
@@ -27,7 +28,8 @@ class User
                 $user['pin_hash'],
                 $user['name'],
                 $user['role'],
-                $created_at
+                $created_at,
+                $user['deleted']
             );
         }
         return null;

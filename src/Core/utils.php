@@ -69,7 +69,9 @@ function e($string): string
 function csrf_token(): string
 {
     if (!Session::has('csrf_token')) {
-        Session::set('csrf_token', bin2hex(random_bytes(32)));
+        $token = bin2hex(random_bytes(32));
+        Session::set('csrf_token', $token);
+        header('HX-Trigger: {"updateCsrf": "' . $token . '"}');
     }
     return Session::get('csrf_token');
 }

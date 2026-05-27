@@ -11,6 +11,7 @@ class Account
         public int               $userId,
         public string            $accountType,
         public DateTimeImmutable $createdAt,
+        public bool              $deleted,
         public float             $balance = 0,
     )
     {
@@ -26,7 +27,8 @@ class Account
                 $account['user_id'],
                 $account['account_type'],
                 $created_at,
-                $balance
+                $account['deleted'],
+                $balance,
             );
         }
         return null;

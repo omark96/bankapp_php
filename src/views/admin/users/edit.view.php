@@ -36,7 +36,10 @@ use Database\DTOs\UpdateUserDto;
         -
     </td>
     <td class="paginated-table__cell">
-        <button
+        -
+    </td>
+    <td class="paginated-table__cell">
+        <button class="btn paginated-table__button"
                 hx-post="/admin/users/<?= e($user->id) ?>"
                 hx-include="closest tr"
                 hx-target="#user-block-<?= e($user->id) ?>"
@@ -44,7 +47,7 @@ use Database\DTOs\UpdateUserDto;
         >
             Save
         </button>
-        <button
+        <button class="btn paginated-table__button"
                 hx-get="/admin/users/table"
                 hx-target="#userTable"
                 hx-swap="innerHTML"

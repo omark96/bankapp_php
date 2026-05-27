@@ -40,7 +40,7 @@ $accounts = [
     [
         'id' => 2,
         'user_id' => 1,
-        'account_type' => 'checking',
+        'account_type' => 'saving',
         'created_at' => '2026-01-02'
     ],
     [

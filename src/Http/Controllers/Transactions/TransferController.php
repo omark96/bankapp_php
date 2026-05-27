@@ -36,7 +36,11 @@ readonly class TransferController
         $transferForm->validate();
 
         $account = $this->accountRepository->getById($accountId);
-
+        $toAccount = $this->accountRepository->getById($toAccountId);
+        if ($account->deleted || $toAccount->deleted) {
+            $transferForm
+                ->error('amount', 'Kan inte överföra mellan de här kontona');
+        }
         if ($amount > $account->balance) {
             $transferForm
                 ->error('amount', 'Kan inte överföra mer än du har på kontot');
