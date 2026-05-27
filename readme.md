@@ -6,13 +6,13 @@ Open `cmder` from Laragon and `cd` into `laragon\www\bankapp_php`.
 
 Run `composer dump-autoload`.
 
-Create the database you want to use for this application. Edit the `config.php` file found in `/src` with your
-credentials and database connection.
+Create the database (default name is `bankapp_olle` ) you want to use for this application. Edit the `config.php` file
+found in `/src` with your credentials and database connection.
 
 `cd` into `bankapp_php\src` and run `php setup.php`. This will delete the database if it exists,
 create a new database using the config from `config.php` and finally seed the database.
 
-If you instead wish to manually create the database using the schema it can be found in `src/schema.sql`.
+If you instead wish to manually setup the database using the schema it can be found in `src/schema.sql`.
 You can then run `php setup.php seed` to only seed the database.
 
 ### Option 1: Laragon with Apache
