@@ -15,11 +15,4 @@ class HomeController
             'code' => $code
         ]);
     }
-
-    public function test(int $id)
-    {
-        view('example', [
-            'text' => $id
-        ]);
-    }
 }

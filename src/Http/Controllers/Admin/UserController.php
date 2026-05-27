@@ -110,19 +110,17 @@ class UserController
         }
 
         $user = $this->userRepository->insert($userDto);
-
         if (!$user) {
-            if ($createForm->failed()) {
-                $createForm->error('cardNumber', 'Kunde inte skapa en användare');
-                view('admin/users/create',
-                    [
-                        'user' => $userDto,
-                        'errors' => $createForm->errors()
-                    ],
-                    null
-                );
-                exit();
-            }
+            $createForm->error('cardNumber', 'Kunde inte skapa en användare');
+            view('admin/users/create',
+                [
+                    'user' => $userDto,
+                    'errors' => $createForm->errors()
+                ],
+                null
+            );
+            exit();
+
         }
 
         header('HX-Trigger: refreshTabs');
