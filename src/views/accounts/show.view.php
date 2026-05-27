@@ -8,7 +8,6 @@
 use Core\Types\PaginatedArray;
 use Models\Account;
 
-
 ?>
 
 <div class="account-actions" hx-target="this" hx-swap="outerHTML">
@@ -26,7 +25,8 @@ use Models\Account;
     </button>
 </div>
 
-<?php component('paginatedTable', [
+<?php
+component('paginatedTable', [
         'columns' => $columns,
         'paginator' => $transactions
 ]); ?>

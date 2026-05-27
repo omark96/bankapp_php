@@ -1,10 +1,10 @@
 <?php
 
-namespace Http\Forms;
+namespace Http\Forms\Transactions;
 
 use Core\Exceptions\ValidationException;
 
-class TransferForm
+abstract class BaseTransactionForm
 {
     protected $errors = [];
 
@@ -12,16 +12,21 @@ class TransferForm
     {
     }
 
-    public function validate()
+    abstract function validate();
+
+    protected function validateAmount()
     {
-        $this->validateAccountNumber();
-        $this->validateAmount();
-        if (!empty($this->errors)) {
-            $this->throw();
+        $amount = $this->attributes['amount'];
+        $amount = trim($amount);
+        if ($amount <= 0) {
+            $this->errors['amount'] = "Beloppet måste vara mer än 0 kr.";
+        }
+        if (!is_numeric($amount)) {
+            $this->errors['amount'] = "Måste innehålla enbart siffror.";
         }
     }
 
-    private function validateAccountNumber()
+    protected function validateAccountNumber()
     {
         $toAccountId = $this->attributes['toAccountId'];
         $toAccountId = trim($toAccountId);
@@ -35,19 +40,6 @@ class TransferForm
         if (!is_numeric($toAccountId)) {
             $this->errors['toAccountId'] = "Måste innehålla enbart siffror.";
         }
-
-    }
-
-    private function validateAmount()
-    {
-        $amount = $this->attributes['amount'];
-        $amount = trim($amount);
-        if ($amount <= 0) {
-            $this->errors['amount'] = "Du måste överföra mer än 0 kr.";
-        }
-        if (!is_numeric($amount)) {
-            $this->errors['amount'] = "Måste innehålla enbart siffror.";
-        }
     }
 
     public function errors()
@@ -55,9 +47,9 @@ class TransferForm
         return $this->errors;
     }
 
-    public function throw()
+    public function failed()
     {
-        ValidationException::throw($this->errors(), $this->attributes);
+        return !empty($this->errors);
     }
 
     public function error($field, $message)
@@ -66,4 +58,5 @@ class TransferForm
 
         return $this;
     }
+
 }

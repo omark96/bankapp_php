@@ -6,7 +6,7 @@ use Core\Auth;
 use Database\DTOs\CreateTransactionDto;
 use Database\Interfaces\AccountRepository;
 use Database\Interfaces\TransactionRepository;
-use Http\Forms\WithdrawForm;
+use Http\Forms\Transactions\WithdrawForm;
 
 readonly class WithdrawController
 {
@@ -36,8 +36,17 @@ readonly class WithdrawController
 
         if ($amount > $account->balance) {
             $withdrawForm
-                ->error('amount', 'Kan inte ta ut mer än du har på kontot')
-                ->throw();
+                ->error('amount', 'Kan inte ta ut mer än du har på kontot');
+        }
+
+        if ($withdrawForm->failed()) {
+            view('accounts/withdraw',
+                [
+                    'accountId' => $accountId,
+                    'errors' => $withdrawForm->errors()
+                ],
+                null);
+            exit();
         }
 
         authorize($account->userId === Auth::user()->id);
@@ -53,11 +62,16 @@ readonly class WithdrawController
 
         if (!$success) {
             $withdrawForm
-                ->error('amount', 'Kunde inte ta ut pengarna, var god försök igen senare.')
-                ->throw();
+                ->error('amount', 'Kunde inte ta ut pengarna, var god försök igen senare.');
+            view('accounts/withdraw',
+                [
+                    'accountId' => $accountId,
+                    'errors' => $withdrawForm->errors()
+                ],
+                null);
         }
 
-        redirect("/accounts/$accountId");
+        header("HX-Redirect: /accounts/$accountId");
 
     }
 }

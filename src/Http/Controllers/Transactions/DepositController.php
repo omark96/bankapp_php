@@ -6,8 +6,7 @@ use Core\Auth;
 use Database\DTOs\CreateTransactionDto;
 use Database\Interfaces\AccountRepository;
 use Database\Interfaces\TransactionRepository;
-use Http\Controllers\AccountController;
-use Http\Forms\DepositForm;
+use Http\Forms\Transactions\DepositForm;
 
 readonly class DepositController
 {
@@ -30,8 +29,19 @@ readonly class DepositController
     public function store(int $accountId): void
     {
         $amount = $_POST['amount'];
+
         $depositForm = new DepositForm(compact('amount'));
         $depositForm->validate();
+        
+        if ($depositForm->failed()) {
+            view('accounts/deposit',
+                [
+                    'accountId' => $accountId,
+                    'errors' => $depositForm->errors()
+                ],
+                null);
+            exit();
+        }
 
         $account = $this->accountRepository->getById($accountId);
 
@@ -48,10 +58,17 @@ readonly class DepositController
 
         if (!$success) {
             $depositForm
-                ->error('amount', 'Kunde inte sätta in pengarna, var god försök igen senare.')
-                ->throw();
+                ->error('amount', 'Kunde inte sätta in pengarna, var god försök igen senare.');
+
+            view('accounts/deposit',
+                [
+                    'accountId' => $accountId,
+                    'errors' => $depositForm->errors()
+                ],
+                null);
         }
 
-        redirect("/accounts/$accountId");
+        header("HX-Redirect: /accounts/$accountId");
+        exit();
     }
 }

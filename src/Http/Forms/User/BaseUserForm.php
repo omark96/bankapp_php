@@ -6,11 +6,12 @@ abstract class BaseUserForm
 {
     protected $errors = [];
 
-    abstract function validate();
 
     public function __construct(private array $attributes)
     {
     }
+
+    abstract function validate();
 
     public function errors()
     {

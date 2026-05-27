@@ -1,8 +1,9 @@
 <?php
 /** @var int $accountId */
+/** @var array $errors */
 ?>
 
-<form method="POST" action="/accounts/<?= e($accountId) ?>/withdraw">
+<form hx-post="/accounts/<?= e($accountId) ?>/withdraw">
     <?= csrf_field() ?>
     <label for="amount"> Att ta ut:</label>
     <input type="number" step="0.01" name="amount">
