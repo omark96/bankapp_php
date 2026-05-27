@@ -31,8 +31,11 @@ readonly class SessionController
         $loginForm->validate();
 
         $user = $this->userRepository->getByCardNumber($cardNumber);
-        $successfulLogin = Auth::login($user, $pinCode);
-        if (!$successfulLogin) {
+        if ($user) {
+            $successfulLogin = Auth::login($user, $pinCode);
+        }
+
+        if (!$successfulLogin || !$user) {
             $loginForm
                 ->error('cardNumber', 'Kunde inte hitta någon användare med de här inloggningsuppgifterna')
                 ->throw();

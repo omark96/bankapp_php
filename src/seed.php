@@ -20,6 +20,13 @@ $users = [
         'pin' => '4321',
         'name' => 'Joe Admin',
         'role' => 'admin'
+    ],
+    [
+        'id' => 3,
+        'card_number' => '1212',
+        'pin' => '1212',
+        'name' => 'John User Jr',
+        'role' => 'user'
     ]
 ];
 

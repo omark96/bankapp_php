@@ -7,5 +7,4 @@
      hx-trigger="load, refreshTabs from:body"
      hx-target="#tabs"
      hx-swap="innerHTML"
-     hx-boost="true"
 ></div>
