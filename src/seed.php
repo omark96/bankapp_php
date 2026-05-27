@@ -101,6 +101,8 @@ $transactions = [
     ]
 ];
 
+$db->beginTransaction();
+
 foreach ($users as $user) {
     $db->query(
         'insert into users(card_number, pin_hash, name, role) VALUES (:card_number, :pin_hash, :name, :role)',
@@ -136,3 +138,5 @@ foreach ($transactions as $transaction) {
         ]
     );
 }
+
+$db->commit();
