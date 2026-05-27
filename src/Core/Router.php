@@ -7,9 +7,9 @@ use ReflectionNamedType;
 
 class Router
 {
-    protected $routes = [];
+    protected array $routes = [];
 
-    public function add(string $method, string $uri, string $controller, string $action)
+    public function add(string $method, string $uri, string $controller, string $action): static
     {
         $trimmedUri = trim($uri, '/');
         $this->routes[] = [
@@ -23,32 +23,32 @@ class Router
         return $this;
     }
 
-    public function get(string $uri, string $controller, string $action)
+    public function get(string $uri, string $controller, string $action): static
     {
         return $this->add('GET', $uri, $controller, $action);
     }
 
-    public function post(string $uri, string $controller, string $action)
+    public function post(string $uri, string $controller, string $action): static
     {
         return $this->add('POST', $uri, $controller, $action);
     }
 
-    public function delete(string $uri, string $controller, string $action)
+    public function delete(string $uri, string $controller, string $action): static
     {
         return $this->add('DELETE', $uri, $controller, $action);
     }
 
-    public function patch(string $uri, string $controller, string $action)
+    public function patch(string $uri, string $controller, string $action): static
     {
         return $this->add('PATCH', $uri, $controller, $action);
     }
 
-    public function put(string $uri, string $controller, string $action)
+    public function put(string $uri, string $controller, string $action): static
     {
         return $this->add('PUT', $uri, $controller, $action);
     }
 
-    public function allowed(array $allowed)
+    public function allowed(array $allowed): static
     {
         $latest = array_key_last($this->routes);
         $this->routes[$latest]['allowed'] = $allowed;

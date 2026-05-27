@@ -9,7 +9,7 @@ use Database\Interfaces\TransactionRepository;
 use Http\Forms\DepositForm;
 use Http\Forms\TransferForm;
 
-class TransferController
+readonly class TransferController
 {
     public function __construct(
         private AccountRepository     $accountRepository,
@@ -18,7 +18,7 @@ class TransferController
     {
     }
 
-    public function create(int $accountId)
+    public function create(int $accountId): void
     {
         view('accounts/transfer',
             [
@@ -27,7 +27,7 @@ class TransferController
             null);
     }
 
-    public function store(int $accountId)
+    public function store(int $accountId): void
     {
         $amount = $_POST['amount'];
         $toAccountId = $_POST['toAccountId'];

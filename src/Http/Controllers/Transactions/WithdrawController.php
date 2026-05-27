@@ -8,7 +8,7 @@ use Database\Interfaces\AccountRepository;
 use Database\Interfaces\TransactionRepository;
 use Http\Forms\WithdrawForm;
 
-class WithdrawController
+readonly class WithdrawController
 {
     public function __construct(
         private AccountRepository     $accountRepository,
@@ -17,7 +17,7 @@ class WithdrawController
     {
     }
 
-    public function create(int $accountId)
+    public function create(int $accountId): void
     {
         view('accounts/withdraw',
             [
@@ -26,7 +26,7 @@ class WithdrawController
             null);
     }
 
-    public function store(int $accountId)
+    public function store(int $accountId): void
     {
         $amount = $_POST['amount'];
         $withdrawForm = new WithdrawForm(compact('amount'));

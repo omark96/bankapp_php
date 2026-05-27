@@ -2,6 +2,7 @@
 
 namespace Database\Interfaces;
 
+use Core\Types\PaginatedArray;
 use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
 use Models\User;
@@ -12,7 +13,7 @@ interface UserRepository
 
     public function getByCardNumber(string $cardNumber): ?User;
 
-    public function getAllPaginated(int $page, int $limit);
+    public function getAllPaginated(int $page, int $limit): PaginatedArray;
 
     public function update(UpdateUserDto $userDto): ?User;
 

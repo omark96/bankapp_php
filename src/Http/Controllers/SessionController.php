@@ -7,13 +7,13 @@ use Core\Session;
 use Database\Interfaces\UserRepository;
 use Http\Forms\LoginForm;
 
-class SessionController
+readonly class SessionController
 {
     public function __construct(private UserRepository $userRepository)
     {
     }
 
-    public function create()
+    public function create(): void
     {
         view('session/create',
             [
@@ -22,7 +22,7 @@ class SessionController
             'auth');
     }
 
-    public function store()
+    public function store(): void
     {
         $cardNumber = $_POST['cardNumber'];
         $pinCode = $_POST['pinCode'];
@@ -40,7 +40,7 @@ class SessionController
         redirect('/');
     }
 
-    public function destroy()
+    public function destroy(): void
     {
         Auth::logout();
         redirect('/');

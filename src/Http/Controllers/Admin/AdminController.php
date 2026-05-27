@@ -2,9 +2,9 @@
 
 namespace Http\Controllers\Admin;
 
-class AdminController
+readonly class AdminController
 {
-    public function index()
+    public function index(): void
     {
         view('/admin/index');
     }

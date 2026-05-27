@@ -8,10 +8,10 @@ use ReflectionClass;
 
 class ServiceContainer
 {
-    protected $bindings = [];
-    protected $instances = [];
+    protected array $bindings = [];
+    protected array $instances = [];
 
-    public function bind(string $key, Closure|string $resolver = null, bool $shared = false)
+    public function bind(string $key, Closure|string $resolver = null, bool $shared = false): void
     {
         $this->bindings[$key] = [
             'resolver' => $resolver ?? $key,
@@ -19,13 +19,13 @@ class ServiceContainer
         ];
     }
 
-    public function singleton(string $key, Closure|string $resolver = null)
+    public function singleton(string $key, Closure|string $resolver = null): void
     {
         $this->bind($key, $resolver, true);
     }
 
 
-    public function resolve($key)
+    public function resolve($key): mixed
     {
         if (array_key_exists($key, $this->instances)) {
             return $this->instances[$key];

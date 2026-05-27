@@ -2,13 +2,13 @@
 
 namespace Database\DTOs;
 
-class UpdateUserDto
+readonly class UpdateUserDto
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $name,
-        public readonly string $role,
-        public readonly string $cardNumber
+        public int    $id,
+        public string $name,
+        public string $role,
+        public string $cardNumber
     )
     {
     }

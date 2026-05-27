@@ -18,7 +18,7 @@ readonly class AccountController
     {
     }
 
-    public function index()
+    public function index(): void
     {
         $accounts = $this->accountRepository->getAllByUserId(Auth::user()->id);
         view('/accounts/index', [
@@ -26,7 +26,7 @@ readonly class AccountController
         ]);
     }
 
-    public function show(int $accountId)
+    public function show(int $accountId): void
     {
         $account = $this->accountRepository->getById($accountId);
         authorize($account->userId == Auth::user()->id);

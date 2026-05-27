@@ -5,7 +5,7 @@ namespace Http\Controllers\Admin;
 use Database\Interfaces\AccountRepository;
 use Models\Account;
 
-class AccountController
+readonly class AccountController
 {
     public function __construct(
         private AccountRepository $accountRepository
@@ -13,12 +13,12 @@ class AccountController
     {
     }
 
-    public function index()
+    public function index(): void
     {
         view('admin/accounts/index', [], null);
     }
 
-    public function table()
+    public function table(): void
     {
         $page = $_GET['page'] ?? 1;
         $accounts = $this->accountRepository->getAllPaginated($page, 3);

@@ -4,7 +4,7 @@ namespace Core;
 
 class Response
 {
-    const BAD_REQUEST = 400;
-    const FORBIDDEN = 403;
-    const NOT_FOUND = 404;
+    const int BAD_REQUEST = 400;
+    const int FORBIDDEN = 403;
+    const int NOT_FOUND = 404;
 }

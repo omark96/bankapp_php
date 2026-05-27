@@ -16,12 +16,12 @@ class App
         return static::$services;
     }
 
-    public static function resolve(string $key)
+    public static function resolve(string $key): mixed
     {
         return static::services()->resolve($key);
     }
 
-    public static function bind(string $key, $resolver)
+    public static function bind(string $key, $resolver): void
     {
         static::services()->bind($key, $resolver);
     }

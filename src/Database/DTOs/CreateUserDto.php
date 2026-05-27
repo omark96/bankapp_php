@@ -2,13 +2,13 @@
 
 namespace Database\DTOs;
 
-class CreateUserDto
+readonly class CreateUserDto
 {
     public function __construct(
-        public readonly string $name = "",
-        public readonly string $role = "",
-        public readonly string $cardNumber = "",
-        public readonly string $pinCode = ""
+        public string $name = "",
+        public string $role = "",
+        public string $cardNumber = "",
+        public string $pinCode = ""
     )
     {
     }

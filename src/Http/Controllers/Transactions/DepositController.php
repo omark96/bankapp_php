@@ -9,7 +9,7 @@ use Database\Interfaces\TransactionRepository;
 use Http\Controllers\AccountController;
 use Http\Forms\DepositForm;
 
-class DepositController
+readonly class DepositController
 {
     public function __construct(
         private AccountRepository     $accountRepository,
@@ -18,7 +18,7 @@ class DepositController
     {
     }
 
-    public function create(int $accountId)
+    public function create(int $accountId): void
     {
         view('accounts/deposit',
             [
@@ -27,7 +27,7 @@ class DepositController
             null);
     }
 
-    public function store(int $accountId)
+    public function store(int $accountId): void
     {
         $amount = $_POST['amount'];
         $depositForm = new DepositForm(compact('amount'));

@@ -17,7 +17,7 @@ class Auth
         return false;
     }
 
-    public static function logout()
+    public static function logout(): void
     {
         Session::destroy();
     }

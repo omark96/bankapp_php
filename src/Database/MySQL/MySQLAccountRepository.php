@@ -7,7 +7,7 @@ use Core\Types\PaginatedArray;
 use Database\Interfaces\AccountRepository;
 use Models\Account;
 
-class MySQLAccountRepository implements AccountRepository
+readonly class MySQLAccountRepository implements AccountRepository
 {
     public function __construct(private Database $db)
     {

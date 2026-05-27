@@ -10,7 +10,7 @@ use Database\Interfaces\UserRepository;
 use Exception;
 use Models\User;
 
-class MySQLUserRepository implements UserRepository
+readonly class MySQLUserRepository implements UserRepository
 {
     public function __construct(private Database $db)
     {
@@ -24,7 +24,7 @@ class MySQLUserRepository implements UserRepository
         return User::fromDb($user);
     }
 
-    public function getAllPaginated(int $page, int $limit)
+    public function getAllPaginated(int $page, int $limit): PaginatedArray
     {
         $result = $this->db
             ->query('

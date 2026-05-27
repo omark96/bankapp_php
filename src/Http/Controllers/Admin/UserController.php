@@ -9,7 +9,7 @@ use Http\Forms\User\CreateUserForm;
 use Http\Forms\User\UpdateUserForm;
 use Models\User;
 
-class UserController
+readonly class UserController
 {
     public function __construct(
         private UserRepository $userRepository
@@ -17,12 +17,12 @@ class UserController
     {
     }
 
-    public function index()
+    public function index(): void
     {
         view('admin/users/index', [], null);
     }
 
-    public function edit(int $id)
+    public function edit(int $id): void
     {
         $user = $this->userRepository->getById($id);
         view('admin/users/edit',
@@ -32,7 +32,7 @@ class UserController
             null);
     }
 
-    public function update(int $id)
+    public function update(int $id): void
     {
         $cardNumber = $_POST['cardNumber'];
         $role = $_POST['role'];
@@ -67,14 +67,14 @@ class UserController
         exit();
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         $this->userRepository->delete($id);
 
         header('HX-Trigger: refreshTabs');
     }
 
-    public function create()
+    public function create(): void
     {
         $userDto = new CreateUserDto();
         view('admin/users/create',
@@ -86,7 +86,7 @@ class UserController
         );
     }
 
-    public function store()
+    public function store(): void
     {
         $name = $_POST['name'];
         $role = $_POST['role'];
@@ -126,7 +126,7 @@ class UserController
         header('HX-Trigger: refreshTabs');
     }
 
-    public function table()
+    public function table(): void
     {
         $page = $_GET['page'] ?? 1;
         $users = $this->userRepository->getAllPaginated($page, 3);
@@ -143,7 +143,7 @@ class UserController
         );
     }
 
-    private function columns()
+    private function columns(): array
     {
         return [
             [

@@ -6,7 +6,7 @@ use Database\DTOs\TransactionFilterDto;
 use Database\Interfaces\TransactionRepository;
 use Models\Transaction;
 
-class TransactionController
+readonly class TransactionController
 {
     public function __construct(
         private TransactionRepository $transactionRepository
@@ -14,13 +14,13 @@ class TransactionController
     {
     }
 
-    public function index()
+    public function index(): void
     {
 
         view('admin/transactions/index', [], null);
     }
 
-    public function table()
+    public function table(): void
     {
         $startDate = null;
         $endDate = null;

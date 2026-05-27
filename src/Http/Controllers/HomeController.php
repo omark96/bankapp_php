@@ -2,14 +2,14 @@
 
 namespace Http\Controllers;
 
-class HomeController
+readonly class HomeController
 {
-    public function index()
+    public function index(): void
     {
         view('index');
     }
 
-    public function error(int $code)
+    public function error(int $code): void
     {
         view('error', [
             'code' => $code

@@ -4,7 +4,7 @@ use Core\Response;
 use Core\Exceptions\HttpException;
 use Core\Session;
 
-function dd($value)
+function dd($value): void
 {
     echo "<pre>";
     var_dump($value);
@@ -12,12 +12,12 @@ function dd($value)
     die();
 }
 
-function base_path(string $path)
+function base_path(string $path): string
 {
     return BASE_PATH . $path;
 }
 
-function view(string $path, array $attributes = [], ?string $layout = 'default')
+function view(string $path, array $attributes = [], ?string $layout = 'default'): void
 {
     extract($attributes);
     if ($layout) {
@@ -31,7 +31,7 @@ function view(string $path, array $attributes = [], ?string $layout = 'default')
     }
 }
 
-function component(string $path, array $attributes = [])
+function component(string $path, array $attributes = []): void
 {
     extract($attributes);
     require base_path("views/components/$path.view.php");
@@ -43,13 +43,13 @@ function abort($code = Response::NOT_FOUND)
     throw new HttpException('HTTP Error', $code);
 }
 
-function redirect($path)
+function redirect($path): void
 {
     header("location: $path");
     die();
 }
 
-function authorize($condition, $status = Response::FORBIDDEN)
+function authorize($condition, $status = Response::FORBIDDEN): void
 {
     if (!$condition) {
         abort($status);
@@ -61,7 +61,7 @@ function currentPath(): string
     return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 }
 
-function e($string)
+function e($string): string
 {
     return htmlspecialchars($string);
 }

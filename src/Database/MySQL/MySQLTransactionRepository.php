@@ -74,22 +74,7 @@ class MySQLTransactionRepository implements TransactionRepository
             ->find();
         return Transaction::fromDb($transaction);
     }
-
-    public function getAllByUserId(int $userId): array
-    {
-        // TODO: Implement getAllByUserId() method.
-    }
-
-    public function getAllByUserIdPaginated(int $userId, int $page, int $limit): PaginatedArray
-    {
-        // TODO: Implement getAllByUserIdPaginated() method.
-    }
-
-    public function getAllByAccountId(int $accountId): array
-    {
-        // TODO: Implement getAllByAccountId() method.
-    }
-
+    
     public function getAllByAccountIdPaginated(int $accountId, int $page, int $limit): PaginatedArray
     {
         $result = $this->db
