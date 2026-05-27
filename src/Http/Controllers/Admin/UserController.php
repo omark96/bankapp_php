@@ -2,6 +2,7 @@
 
 namespace Http\Controllers\Admin;
 
+use Core\Auth;
 use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
 use Database\DTOs\UserFilterDto;
@@ -43,6 +44,10 @@ readonly class UserController
         $updateForm->validate();
 
         $userDto = new UpdateUserDto($id, $name, $role, $cardNumber);
+
+        if ($id === Auth::user()->id && $role !== Auth::user()->role) {
+            $updateForm->error('role', 'Kan inte ändra rollen på det kontot du är inloggad på.');
+        }
 
         if ($updateForm->failed()) {
             view('admin/users/edit',
