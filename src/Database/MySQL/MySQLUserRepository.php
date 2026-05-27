@@ -6,6 +6,7 @@ use Core\Database;
 use Core\Types\PaginatedArray;
 use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
+use Database\DTOs\UserFilterDto;
 use Database\Interfaces\UserRepository;
 use Exception;
 use Models\User;
@@ -24,29 +25,48 @@ readonly class MySQLUserRepository implements UserRepository
         return User::fromDb($user);
     }
 
-    public function getAllPaginated(int $page, int $limit): PaginatedArray
+    public function getAllPaginated(UserFilterDto $filter, int $page, int $limit): PaginatedArray
     {
-        $result = $this->db
-            ->query('
-                select 
-                    * 
-                from users as U
-                order by U.created_at desc
-                limit :limit offset :offset;
-            ',
-                [
-                    'limit' => $limit,
-                    'offset' => ($page - 1) * $limit
-                ])
-            ->findAll();
+        $baseSql = 'SELECT * FROM users';
+        $countSql = 'SELECT count(*) as sum FROM users';
+
+        $conditions = [];
+        $params = [];
+
+        if ($filter->cardNumber !== null) {
+            $conditions[] = 'card_number like :cardNumber';
+            $params['cardNumber'] = '%' . $filter->cardNumber . '%';
+        }
+
+        if ($filter->name !== null) {
+            $conditions[] = 'name like :name';
+            $params['name'] = '%' . $filter->name . '%';
+        }
+
+        if ($filter->role !== null) {
+            $conditions[] = 'role like :role';
+            $params['role'] = '%' . $filter->role . '%';
+        }
+
+        $whereClause = '';
+        if (!empty($conditions)) {
+            $whereClause = ' WHERE ' . implode(' AND ', $conditions);
+        }
 
         $rowCount = $this->db
-            ->query('
-            select 
-                count(*) as sum
-            from users
-            ')
+            ->query($countSql . $whereClause, $params)
             ->find();
+
+        $dataSql = $baseSql . $whereClause . ' ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
+
+        $queryParams = array_merge($params, [
+            'limit' => $limit,
+            'offset' => ($page - 1) * $limit
+        ]);
+
+        $result = $this->db
+            ->query($dataSql, $queryParams)
+            ->findAll();
 
         $users = [];
         foreach ($result as $user) {

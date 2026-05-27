@@ -4,6 +4,7 @@ namespace Http\Controllers\Admin;
 
 use Database\DTOs\CreateUserDto;
 use Database\DTOs\UpdateUserDto;
+use Database\DTOs\UserFilterDto;
 use Database\Interfaces\UserRepository;
 use Http\Forms\User\CreateUserForm;
 use Http\Forms\User\UpdateUserForm;
@@ -128,8 +129,24 @@ readonly class UserController
 
     public function table(): void
     {
+        $cardNumber = null;
+        $name = null;
+        $role = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $cardNumber = strlen($_POST['cardNumber']) > 0 ? $_POST['cardNumber'] : null;
+            $name = strlen($_POST['name']) > 0 ? $_POST['name'] : null;
+            $role = strlen($_POST['role']) > 0 ? $_POST['role'] : null;
+        }
+
+        $filter = new UserFilterDto(
+            $cardNumber,
+            $name,
+            $role
+        );
+
         $page = $_GET['page'] ?? 1;
-        $users = $this->userRepository->getAllPaginated($page, 3);
+        $users = $this->userRepository->getAllPaginated($filter, $page, 20);
 
         $columns = $this->columns();
 
@@ -162,7 +179,7 @@ readonly class UserController
             ],
             [
                 'key' => 'name',
-                'label' => "Kontotyp",
+                'label' => "Namn",
                 'formatter' => function (User $user) {
                     return $user->name;
                 }

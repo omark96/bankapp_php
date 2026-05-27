@@ -15,16 +15,22 @@ use Database\DTOs\UpdateUserDto;
         <?= e($user->id) ?>
     </td>
     <td class="paginated-table__cell">
-        <input type="text" name="cardNumber" value="<?= e($user->cardNumber) ?>">
+        <label>
+            <input type="text" name="cardNumber" value="<?= e($user->cardNumber) ?>">
+        </label>
     </td>
     <td class="paginated-table__cell">
-        <input type="text" name="name" value="<?= e($user->name) ?>">
+        <label>
+            <input type="text" name="name" value="<?= e($user->name) ?>">
+        </label>
     </td>
     <td class="paginated-table__cell">
-        <select type="text" name="role">
-            <option value="user" <?= $user->role === 'user' ? 'selected' : '' ?>>user</option>
-            <option value="admin" <?= $user->role === 'admin' ? 'selected' : '' ?>>admin</option>
-        </select>
+        <label>
+            <select name="role">
+                <option value="user" <?= $user->role === 'user' ? 'selected' : '' ?>>user</option>
+                <option value="admin" <?= $user->role === 'admin' ? 'selected' : '' ?>>admin</option>
+            </select>
+        </label>
     </td>
     <td class="paginated-table__cell">
         -
